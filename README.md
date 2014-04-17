@@ -7,6 +7,8 @@ Each of these decoders is running on http://malwareconfig.com and has additional
 
 If you wish to contribute please feel free to fork or email me on decoders@malwareconfig.com
 
+The write-up is here http://techanarchy.net/2014/04/rat-decoders/
+
 ###Current Rats
 Here is a list of the currently supported RATS:
 
