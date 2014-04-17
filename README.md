@@ -54,3 +54,14 @@ This list is a complete listing of all the Python Modules
 ### ToDo
 
 There will be more decoders coming
+Finish the Recursive mode on several of the Decoders
+
+### Thanks
+
+Full credit where credit is due. 
+
+Malware.lu for the initial xtreme Rat Writeup - https://code.google.com/p/malware-lu/wiki/en_xtreme_RAT
+
+Fireye for their Poison Ivy and Xtreme rat WriteUps (Even though they ignored my tweet and reply ) - http://www.fireeye.com/blog/technical/2014/02/xtremerat-nuisance-or-threat.html
+
+Shawn Denbow and Jesse Herts for their paper here - http://www.matasano.com/research/PEST-CONTROL.pdf Saved me a lot of time 
