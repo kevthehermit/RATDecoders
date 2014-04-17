@@ -6,19 +6,17 @@ Bozok Rat Config Decoder
 
 __description__ = 'Bozok Rat Config Extractor'
 __author__ = 'Kevin Breen http://techanarchy.net http://malwareconfig.com'
-__version__ = '0.1'
+__version__ = '0.2'
 __date__ = '2014/04/10'
 
 #Standard Imports Go Here
 import os
 import sys
 import string
-from zipfile import ZipFile
-from cStringIO import StringIO
 from optparse import OptionParser
 
 #Non Standard Imports
-
+import pefile
 
 
 # Main Decode Function Goes Here
@@ -29,7 +27,9 @@ Must return a python dict of values
 
 def run(data):
 	conf = {}
-	config = configExtract(data)
+	rawConfig = configExtract(data).replace('\x00', '')
+	config = rawConfig.split("|")
+	print config
 	if config != None:
 		conf["ServerID"] = config[0]
 		conf["Mutex"] = config[1]
@@ -51,7 +51,7 @@ def run(data):
 #Helper Functions Go Here
 
 def configExtract(rawData):
-	try:
+
 		pe = pefile.PE(data=rawData)
 
 		try:
@@ -66,22 +66,12 @@ def configExtract(rawData):
 		rt_string_directory = pe.DIRECTORY_ENTRY_RESOURCE.entries[rt_string_idx]
 
 		for entry in rt_string_directory.directory.entries:
-			if str(entry.name) == "SETTINGS":
+			if str(entry.name) == "CFG":
 				data_rva = entry.directory.entries[0].data.struct.OffsetToData
 				size = entry.directory.entries[0].data.struct.Size
 				data = pe.get_memory_mapped_image()[data_rva:data_rva+size]
-				config = data.split('}')
-				return config
-	except:
-		return None		
+				return data
 
-def decode(string):
-	result = ""
-	for i in range(0,len(string)):
-		a = ord(string[i])
-		result += chr(a-1)
-	return result
-	
 
 #Recursive Function Goes Here
 
