@@ -69,7 +69,7 @@ def dataWalk(splitdata):
 	maxCount = 0
 	while offset < EOF and maxCount < 22:
 		try:
-			length = calcLength(stream[offset+2:offset+4])
+			length = calcLength(str(stream[offset+2:offset+4]))
 			temp = []
 			for i in range(offset+4, offset+4+length):
 				temp.append(chr(stream[i]))
