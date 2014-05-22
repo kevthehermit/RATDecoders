@@ -76,6 +76,7 @@ def sortConfig(oldConfig):
 		newConfig["Port1"] = oldConfig["puerto1"]
 		newConfig["Port2"] = oldConfig["puerto2"]
 		newConfig["Reg Value"] = oldConfig["regname"]
+		print newConfig
 		return newConfig
 
 	if oldConfig["Version"] == "Adwind RAT v2.0":
@@ -87,8 +88,10 @@ def sortConfig(oldConfig):
 		newConfig["Reg Key"] = oldConfig["keyClase"]
 		newConfig["Password"] = oldConfig["password"]
 		newConfig["Campaign ID"] = oldConfig["prefijo"]
-		newConfig["Port"] = oldConfig["puerto"]
+		newConfig["Port1"] = oldConfig["puerto"]
+		print newConfig
 		return newConfig
+	
 	return oldConfig
 		
 def DecryptDES(enckey, data):

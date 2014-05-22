@@ -64,8 +64,8 @@ def configParse(confRaw):
 	config["Port1"] = list[2]
 	config["Port2"] = list[3]
 	if len(list) > 4:
-		config["Install Name"] = list[4]
-		config["Jar Name"] = list[5]
+		config["InstallName"] = list[4]
+		config["JarName"] = list[5]
 	return config
 
 #Recursive Function Goes Here

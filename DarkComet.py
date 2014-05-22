@@ -37,9 +37,9 @@ def rc4crypt(data, key):
     
     return ''.join(out)
 
-def v51_data(data, key):
+def v51_data(data, enckey):
 	config = {"FWB": "", "GENCODE": "", "MUTEX": "", "NETDATA": "", "OFFLINEK": "", "SID": "", "FTPUPLOADK": "", "FTPHOST": "", "FTPUSER": "", "FTPPASS": "", "FTPPORT": "", "FTPSIZE": "", "FTPROOT": "", "PWD": ""}
-	dec = rc4crypt(unhexlify(data), key)
+	dec = rc4crypt(unhexlify(data), enckey)
 	dec_list = dec.split('\n')
 	for entries in dec_list[1:-1]:
 		key, value = entries.split('=')
@@ -47,12 +47,15 @@ def v51_data(data, key):
 		value = value.rstrip()[1:-1]
 		clean_value = filter(lambda x: x in string.printable, value)
 		config[key] = clean_value
+		config["Version"] = enckey[:-4]
+	print config
 	return config
 
 def v3_data(data, key):
 	config = {"FWB": "", "GENCODE": "", "MUTEX": "", "NETDATA": "", "OFFLINEK": "", "SID": "", "FTPUPLOADK": "", "FTPHOST": "", "FTPUSER": "", "FTPPASS": "", "FTPPORT": "", "FTPSIZE": "", "FTPROOT": "", "PWD": ""}
 	dec = rc4crypt(unhexlify(data), key)
 	config[str(entry.name)] = dec
+	config["Version"] = enckey[:-4]
 
 	return config
 
@@ -100,13 +103,38 @@ def configExtract(rawData, key):
 			data = pe.get_memory_mapped_image()[data_rva:data_rva+size]
 			dec = rc4crypt(unhexlify(data), key)
 			config[str(entry.name)] = filter(lambda x: x in string.printable, dec)
+			config["Version"] = key[:-4]
 	return config
 
+
+def configClean(config):
+	try:
+		newConf = {}
+		newConf["FireWallBypass"] = config["FWB"]
+		newConf["FTPHost"] = config["FTPHOST"]
+		newConf["FTPPassword"] = config["FTPPASS"]
+		newConf["FTPPort"] = config["FTPPORT"]
+		newConf["FTPRoot"] = config["FTPROOT"]
+		newConf["FTPSize"] = config["FTPSIZE"]
+		newConf["FTPKeyLogs"] = config["FTPUPLOADK"]
+		newConf["FTPUserName"] = config["FTPUSER"]
+		newConf["Gencode"] = config["GENCODE"]
+		newConf["Mutex"] = config["MUTEX"]
+		newConf["Domains"] = config["NETDATA"]
+		newConf["OfflineKeylogger"] = config["OFFLINEK"]
+		newConf["Password"] = config["PWD"]
+		newConf["CampaignID"] = config["SID"]
+		newConf["Version"] = config["Version"]
+		return newConf
+	except:
+		return config
 	
 def run(data):
 	versionKey = versionCheck(data)
 	if versionKey != None:
 		config = configExtract(data, versionKey)
+		print config
+		config = configClean(config)
 
 		return config
 	else:

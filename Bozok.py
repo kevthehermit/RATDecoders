@@ -45,6 +45,7 @@ def run(data):
 		conf["Port"] = config[11]
 		conf["Domain"] = config[12]
 		conf["Unknown Flag3"] = config[13]
+	print conf
 	return conf
 	
 		
