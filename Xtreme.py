@@ -33,22 +33,26 @@ Must return a python dict of values
 def run(data):
 	key = "C\x00O\x00N\x00F\x00I\x00G"
 	codedConfig = configExtract(data)
-	rawConfig = rc4crypt(codedConfig, key)
-	#1.3.x # Not implemented yet
-	if len(rawConfig) == 0xe10:
-		config = None
-	#2.9.x #Not a stable extract
-	elif len(rawConfig) == 0x1390 or len(rawConfig) == 0x1392:
-		config = v29(rawConfig)
-	#3.1 & 3.2
-	elif len(rawConfig) == 0x5Cc:
-		config = v32(rawConfig)
-	#3.5
-	elif len(rawConfig) == 0x7f0:
-		config = v35(rawConfig)
-	else:
-		config = None
-	return config
+	if codedConfig is not None:
+        	rawConfig = rc4crypt(codedConfig, key)
+        	#1.3.x # Not implemented yet
+        	if len(rawConfig) == 0xe10:
+        		config = None
+        	#2.9.x #Not a stable extract
+        	elif len(rawConfig) == 0x1390 or len(rawConfig) == 0x1392:
+        		config = v29(rawConfig)
+        	#3.1 & 3.2
+        	elif len(rawConfig) == 0x5Cc:
+        		config = v32(rawConfig)
+        	#3.5
+        	elif len(rawConfig) == 0x7f0:
+        		config = v35(rawConfig)
+        	else:
+        		config = None
+        	return config
+        else:
+                print '[-] Coded config not found'
+                sys.exit()
 	
 		
 #Helper Functions Go Here
