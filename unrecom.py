@@ -43,15 +43,22 @@ def main():
     print_config(config)    
     
 def extract_embedded(archive):
-    enckey = None    
+    enckey = None
+    adwind_flag = False
     with ZipFile(archive, 'r') as zip:
         for name in zip.namelist(): # get all the file names
             if name == "load/ID": # contains first part of key
-                enckey = zip.read(name) + 'DESW7OWKEJRU4P2K' # complete key
+                partial_key = zip.read(name)
+                enckey = partial_key + 'DESW7OWKEJRU4P2K' # complete key
                 print "    [-] Found Key {0}".format(zip.read(name))
             if name == "load/MANIFEST.MF": # this is the embedded jar                
                 raw_embedded = zip.read(name)
+            if name == "load/stub.adwind": # This is adwind 3
+                raw_embedded = zip.read(name)
+                adwind_flag = True
                 
+    if adwind_flag:
+        enckey = partial_key
     if enckey != None:
         # Decrypt The raw file
         print "    [-] Decrypting Embedded Jar"
