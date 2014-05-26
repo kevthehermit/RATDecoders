@@ -61,8 +61,7 @@ def findUSStream(pe, dir):
 		name = pe.ntHeaders.optionalHeader.dataDirectory[dir].info.netMetaDataStreams[i].name.value
 		if name.startswith("#US"):
 			return pe.ntHeaders.optionalHeader.dataDirectory[dir].info.netMetaDataStreams[i].info
-		else:
-			return None
+	return None
 
 #Walk the User Strings and create a list of individual strings
 def parseStrings(rawConfig):
