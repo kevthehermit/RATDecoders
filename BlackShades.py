@@ -60,7 +60,7 @@ def config_extract(raw_data):
     for s in config_pattern:
         if (len(s) % 2) == 1:
             s = s[:-1]
-    return s
+            return s
 
 def config_parser(config):
     config_dict = {}
@@ -140,7 +140,7 @@ if __name__ == "__main__":
 		fileData = open(args[0], 'rb').read()
 	except:
 		print "[+] Couldn't Open File {0}".format(args[0])
-        sys.exit()
+                sys.exit()
 	#Run the config extraction
 	print "[+] Searching for Config"
 	config = run(fileData)
