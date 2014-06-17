@@ -13,28 +13,35 @@ The write-up is here http://techanarchy.net/2014/04/rat-decoders/
 Here is a list of the currently supported RATS:
 
 - Adwind
+- Albertino Advanced RAT
 - Arcom
 - BlackNix
+- BlackShades
 - Blue Banana
 - Bozok
+- ClientMesh
 - CyberGate
 - DarkComet
+- drakddoser
 - DarkRat
 - Graeme
 - jRat
 - LostDoor
+- LuxNet
 - njRat
 - Pandora
+- PoisionIvy
 - Punisher
 - SpyGate
 - SmallNet
+- Unrecom
+- Vantom
 - Vertex
 - VirusRat
 - xtreme
 
 ###Upcoming RATS
 
-- BlackShades
 - NetWire
 - Gh0st
 - Plasma
