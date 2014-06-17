@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-Lost Rat Config Decoder
+LostDoor Rat Config Decoder
 '''
 
 
@@ -115,8 +115,8 @@ def v80(conf):
     conf_dict["Enable Error Message"] = conf[7]
     conf_dict["Error Message"] = conf[8]
     conf_dict["Disable Firewall"] = conf[9]
-    conf_dict[""] = conf[10]
-    conf_dict[""] = conf[11]
+    #conf_dict[""] = conf[10]
+    #conf_dict[""] = conf[11]
     conf_dict["USB Spread"] = conf[12]
     conf_dict["MSN Spread"] = conf[13]
     conf_dict["P2P Spread"] = conf[14]
@@ -125,7 +125,7 @@ def v80(conf):
     conf_dict["Connection Delay"] = conf[17]
     conf_dict["Set Hidden"] = conf[18]
     conf_dict["Protect Process"] = conf[19]
-    conf_dict[""] = conf[20]
+    #conf_dict[""] = conf[20]
 
     return conf_dict
     
@@ -145,8 +145,8 @@ def v801(conf):
     conf_dict["Enable Error Message"] = conf[7]
     conf_dict["Error Message"] = conf[8]
     conf_dict["Disable Firewall"] = conf[9]
-    conf_dict[""] = conf[10]
-    conf_dict[""] = conf[11]
+    #conf_dict[""] = conf[10]
+    #conf_dict[""] = conf[11]
     conf_dict["USB Spread"] = conf[12]
     conf_dict["MSN Spread"] = conf[13]
     conf_dict["P2P Spread"] = conf[14]
