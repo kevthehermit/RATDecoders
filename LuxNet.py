@@ -7,7 +7,7 @@ LuxNet Rat Config Decoder
 __description__ = 'Luxnet Rat Config Extractor'
 __author__ = 'Kevin Breen http://techanarchy.net http://malwareconfig.com'
 __version__ = '0.1'
-__date__ = '2014/04/10'
+__date__ = '2014/06/17'
 
 #Standard Imports Go Here
 import os
