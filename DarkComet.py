@@ -48,7 +48,6 @@ def v51_data(data, enckey):
 		clean_value = filter(lambda x: x in string.printable, value)
 		config[key] = clean_value
 		config["Version"] = enckey[:-4]
-	print config
 	return config
 
 def v3_data(data, key):
@@ -133,7 +132,6 @@ def run(data):
 	versionKey = versionCheck(data)
 	if versionKey != None:
 		config = configExtract(data, versionKey)
-		print config
 		config = configClean(config)
 
 		return config
