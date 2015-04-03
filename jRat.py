@@ -6,8 +6,8 @@ jRat Rat Config Decoder
 
 __description__ = 'jRat Rat Config Extractor'
 __author__ = 'Kevin Breen http://techanarchy.net http://malwareconfig.com'
-__version__ = '0.2'
-__date__ = '2014/06/21'
+__version__ = '0.3'
+__date__ = '2015/04/03'
 
 #Standard Imports Go Here
 import os
@@ -20,7 +20,7 @@ from cStringIO import StringIO
 
 #Non Standard Imports
 try:
-    from Crypto.Cipher import AES, DES
+    from Crypto.Cipher import AES, DES3
 except ImportError:
     print "[+] Couldn't Import Cipher, try 'sudo pip install pycrypto'"
 
@@ -47,7 +47,7 @@ def run(data):
             raw_config = new_aes(conf, enckey)
         else:
             raw_config = old_aes(conf, enckey)
-    if len(enckey) == 32:
+    if len(enckey) in [24, 32]:
         raw_config = old_des(conf, enckey)
     config_dict = parse_config(raw_config, enckey)
     return config_dict
@@ -151,7 +151,7 @@ def new_aes(conf, enckey):
     
 # process versions < 3.2.2
 def old_des(conf, enckey):
-    decoded_config = decrypt_des(data, enckey)
+    decoded_config = decrypt_des(enckey, conf)
     clean_config = string_print(decoded_config)
     raw_config = clean_config.split('SPLIT')
     return raw_config
@@ -249,6 +249,7 @@ if __name__ == "__main__":
         fileData = open(args[0], 'rb').read()
     except:
         print "[+] Couldn't Open File {0}".format(args[0])
+        sys.exit()
     #Run the config extraction
     print "[+] Searching for Config"
     config = run(fileData)
