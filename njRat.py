@@ -33,7 +33,6 @@ def run(data):
 	try:
 		pe = pype32.PE(data=data) 
 		rawConfig = getStream(pe)
-		rawConfig = pypefix(rawConfig)
 		# Get a list of strings
 		stringList = parseStrings(rawConfig)
 		#parse the string list
@@ -157,17 +156,6 @@ def parseConfig(stringList):
 		return dict
 	else:
 		return None
-
-# theres an error when you try to get the strings section, this trys to fix that.
-def pypefix(rawConfig):
-	counter = 0
-	while counter < 10:
-		x = rawConfig[counter]
-		if x == '\x00':
-			return rawConfig[counter:]
-			
-		else:
-			counter += 1
 
 
 #Recursive Function Goes Here
