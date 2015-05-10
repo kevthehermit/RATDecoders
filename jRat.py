@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 '''
-jRat Rat Config Decoder
+jRAT Rat Config Decoder
 '''
 
 
-__description__ = 'jRat Rat Config Extractor'
+__description__ = 'jRAT Rat Config Extractor'
 __author__ = 'Kevin Breen http://techanarchy.net http://malwareconfig.com'
 __version__ = '0.3'
 __date__ = '2015/04/03'
