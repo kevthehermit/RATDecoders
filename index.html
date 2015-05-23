@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>RAT Decoders by kevthehermit</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>RAT Decoders</h1>
+        <h2>Python Decoders for Common Remote Access Trojans</h2>
+        <a href="https://github.com/kevthehermit/RATDecoders" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3>
+<a id="welcome" class="anchor" href="#welcome" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome</h3>
+
+<p>This Repo will hold a collection of Python Scripts that will extract,decode and display the configuration settings from common rats.</p>
+
+<p>Each of these decoders is running on <a href="http://malwareconfig.com">http://malwareconfig.com</a> and has additional features that are not included in the scripts.</p>
+
+<p>If you wish to contribute please feel free to fork or email me on <a href="mailto:decoders@malwareconfig.com">decoders@malwareconfig.com</a></p>
+
+<p>You can read more about the project on my blog at <a href="http://techanarchy.net/2014/04/rat-decoders/">http://techanarchy.net/2014/04/rat-decoders/</a></p>
+
+<h3>
+<a id="current-rats" class="anchor" href="#current-rats" aria-hidden="true"><span class="octicon octicon-link"></span></a>Current Rats</h3>
+
+<p>These are the currently supported RATS:</p>
+
+<ul>
+<li>Adwind</li>
+<li>Adzok</li>
+<li>Albertino Advanced RAT</li>
+<li>AlienSpy</li>
+<li>Arcom</li>
+<li>BlackNix</li>
+<li>BlackShades</li>
+<li>Blue Banana</li>
+<li>Bozok</li>
+<li>ClientMesh</li>
+<li>Crimson</li>
+<li>CyberGate</li>
+<li>DarkComet</li>
+<li>drakddoser</li>
+<li>DarkRat</li>
+<li>Gh0st</li>
+<li>Graeme</li>
+<li>Java Droppers</li>
+<li>jRat</li>
+<li>LostDoor</li>
+<li>LuxNet</li>
+<li>NanoCore</li>
+<li>njRat</li>
+<li>Pandora</li>
+<li>PoisionIvy</li>
+<li>Punisher</li>
+<li>ShadowTech</li>
+<li>SpyGate</li>
+<li>SmallNet</li>
+<li>Tapaoux</li>
+<li>Unrecom</li>
+<li>Vantom</li>
+<li>Vertex</li>
+<li>VirusRat</li>
+<li>xtreme</li>
+</ul>
+
+<h3>
+<a id="upcoming-rats" class="anchor" href="#upcoming-rats" aria-hidden="true"><span class="octicon octicon-link"></span></a>Upcoming RATS</h3>
+
+<ul>
+<li>NetWire</li>
+<li>Plasma</li>
+<li>Any Other Rats i can find.</li>
+</ul>
+
+<h3>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h3>
+
+<p>All the decoders are written in Python 2.7 each decoder can run independently and each has their own requirements. 
+For all existing decoders the only external modules required are:</p>
+
+<ul>
+<li>pefile</li>
+<li>pycrypto</li>
+<li>pype32</li>
+</ul>
+
+<p>PyCrypto for windows can be found on voidspace all others can be installed with pip or via git. </p>
+
+<h3>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h3>
+
+<ul>
+<li>Each Script comes with its own -h option use it :)
+Typical Usage is </li>
+</ul>
+
+<pre><code>root@Viper:~/RATDecoders# python DarkComet.py
+Usage: DarkComet.py inFile outConfig
+DarkComet Rat Config Extractor
+
+Options:
+  --version   show program's version number and exit
+  -h, --help  show this help message and exit
+
+</code></pre>
+
+<p>Some of the decoders have a recursive mode used with a <code>-r</code> and a dir name</p>
+
+<h3>
+<a id="projects" class="anchor" href="#projects" aria-hidden="true"><span class="octicon octicon-link"></span></a>Projects</h3>
+
+<p>There are a couple of projects that make use of these decoders. If you wish to integrate these in to your own let me know and i will help where i can. If you use it and i missed you also let me know. </p>
+
+<p>Viper - <a href="https://github.com/botherder/viper">https://github.com/botherder/viper</a></p>
+
+<p>DC3-MWCP - <a href="https://github.com/Defense-Cyber-Crime-Center/DC3-MWCP">https://github.com/Defense-Cyber-Crime-Center/DC3-MWCP</a></p>
+
+<h3>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>ToDo</h3>
+
+<ul>
+<li>There will be more decoders coming</li>
+<li>Finish the Recursive mode on several of the Decoders</li>
+</ul>
+
+<h3>
+<a id="thanks" class="anchor" href="#thanks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Thanks</h3>
+
+<p>Full credit where credit is due. </p>
+
+<p>Malware.lu for the initial xtreme Rat Writeup - <a href="https://code.google.com/p/malware-lu/wiki/en_xtreme_RAT">https://code.google.com/p/malware-lu/wiki/en_xtreme_RAT</a></p>
+
+<p>Fireye for their Poison Ivy and Xtreme rat WriteUps (Even though they ignored my tweet and reply ) - <a href="http://www.fireeye.com/blog/technical/2014/02/xtremerat-nuisance-or-threat.html">http://www.fireeye.com/blog/technical/2014/02/xtremerat-nuisance-or-threat.html</a></p>
+
+<p>Shawn Denbow and Jesse Herts for their paper here - <a href="http://www.matasano.com/research/PEST-CONTROL.pdf">http://www.matasano.com/research/PEST-CONTROL.pdf</a> Saved me a lot of time </p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/kevthehermit/RATDecoders/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/kevthehermit/RATDecoders/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/kevthehermit/RATDecoders"></a> is maintained by <a href="https://github.com/kevthehermit">kevthehermit</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
