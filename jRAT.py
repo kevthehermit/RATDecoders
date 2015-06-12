@@ -136,6 +136,7 @@ def decrypt_des(enckey, data):
 # Process Versions 3.2.2 > 4.2.
 def old_aes(conf, enckey):
     decoded_config = decrypt_aes(enckey, conf)
+    print decoded_config
     clean_config = string_print(decoded_config)
     raw_config = clean_config.split('SPLIT')
     return raw_config
@@ -165,6 +166,15 @@ def parse_config(raw_config, enckey):
         key, value = kv.split('=')
         if key == 'ip':
             config_dict['Domain'] = value
+        if key == 'addresses':
+            dom_list = value.split(',')
+            dom_count = 0
+            for dom in dom_list:
+                if dom == '':
+                    continue
+                config_dict['Domain {0}'.format(dom_count)] = value.split(':')[0]
+                config_dict['Port {0}'.format(dom_count)] = value.split(':')[1]
+                dom_count += 1
         if key == 'port':
             config_dict['Port'] = value
         if key == 'os':
