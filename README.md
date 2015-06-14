@@ -25,12 +25,14 @@ Here is a list of the currently supported RATS:
 - drakddoser
 - DarkRat
 - Graeme
+- HawkEye
 - jRat
 - LostDoor
 - LuxNet
 - njRat
 - Pandora
 - PoisionIvy
+- PredatorPain
 - Punisher
 - SpyGate
 - SmallNet
@@ -38,6 +40,7 @@ Here is a list of the currently supported RATS:
 - Vantom
 - Vertex
 - VirusRat
+- Xena
 - xtreme
 
 ###Upcoming RATS
