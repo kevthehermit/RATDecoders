@@ -39,7 +39,7 @@ Must return a python config_dict of values
 def run(data):
         pe = pype32.PE(data=data)
         print "  [-] Collecting Strings"
-        string_list = get_strings(pe, '#US')
+        string_list = get_strings(pe, 2)
         key, salt = 'HawkEyeKeylogger', '3000390039007500370038003700390037003800370038003600'.decode('hex')
         config_dict = config_1(key, salt, string_list)
         return config_dict

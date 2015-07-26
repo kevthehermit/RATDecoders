@@ -32,7 +32,7 @@ Must return a python config_dict of values
 def run(data):
     try:
         pe = pype32.PE(data=data) 
-        string_list = get_strings(pe, '#US')
+        string_list = get_strings(pe, 2)
         #print string_list
         #parse the string list
         config_dict = parse_config(string_list)

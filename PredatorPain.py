@@ -34,7 +34,7 @@ Must return a python config_dict of values
 def run(data):
         pe = pype32.PE(data=data)
         print "  [-] Collecting Strings"
-        string_list = get_strings(pe, '#US')
+        string_list = get_strings(pe, 2)
         print "  [+] Identify version"
         vers = get_version(string_list)
         
