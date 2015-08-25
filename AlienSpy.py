@@ -4,13 +4,14 @@ AlienSpy Rat Rat Config Decoder
 '''
 __description__ = 'AlienSpy Rat Config Extractor'
 __author__ = 'Kevin Breen http://techanarchy.net http://malwareconfig.com'
-__version__ = '0.1'
-__date__ = '2015/03/03'
+__version__ = '0.2'
+__date__ = '2015/08/25'
 
 #Standard Imports Go Here
 import os
 import re
 import sys
+import json
 import string
 from optparse import OptionParser
 from zipfile import ZipFile
@@ -26,9 +27,14 @@ def run(file_name):
             if name == 'ID':
                 pre_key = zip.read(name)
                 enckey = '{0}H3SUW7E82IKQK2J2J2IISIS'.format(pre_key)
+            elif name == 'a.txt':
+                pre_key = zip.read(name)
+                enckey = '{0}{1}{0}{1}a'.format('plowkmsssssPosq34r', pre_key)
             if name == 'MANIFEST.MF':
                 coded_jar = zip.read(name)
-        
+            elif name == 'b.txt':
+                coded_jar = zip.read(name)
+
     if enckey and coded_jar:
         decoded_data = decrypt_RC4(enckey, coded_jar)
         decoded_jar = StringIO(decoded_data)
@@ -37,14 +43,17 @@ def run(file_name):
 
     with ZipFile(decoded_jar) as zip:
         for name in zip.namelist():
-            if name == 'config.xml':
+            if name in ['config.xml', 'org/jsocket/resources/config.json']:
                 raw_config = zip.read(name)
     return parse_config(raw_config)
         
 #Helper Functions Go Here
 
 def string_print(line):
-    return filter(lambda x: x in string.printable, line)
+    try:
+        return filter(lambda x: x in string.printable, str(line))
+    except:
+        return line
 
 ####RC4 Cipher ####	
 def decrypt_RC4(enckey, data):
@@ -53,9 +62,14 @@ def decrypt_RC4(enckey, data):
 
 def parse_config(raw_config):
     config_dict = {}
-    for line in raw_config.split('\n'):
-        if line.startswith('<entry key'):
-            config_dict[re.findall('key="(.*?)"', line)[0]] = re.findall('>(.*?)</entry', line)[0]
+    if 'JSocket in raw_config':
+        config = json.loads(raw_config)
+        for k, v in config.iteritems():
+            config_dict[k] = v
+    else:
+        for line in raw_config.split('\n'):
+            if line.startswith('<entry key'):
+                config_dict[re.findall('key="(.*?)"', line)[0]] = re.findall('>(.*?)</entry', line)[0]
     return config_dict
 
 # Main
@@ -86,6 +100,6 @@ if __name__ == "__main__":
     else:
         print "[+] Printing Config to screen"
         for key, value in sorted(config.iteritems()):
-            clean_value = filter(lambda x: x in string.printable, value)
+            clean_value = string_print(value)
             print "   [-] Key: {0}\t Value: {1}".format(key,clean_value)
         print "[+] End of Config"
