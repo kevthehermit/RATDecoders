@@ -62,7 +62,7 @@ def decrypt_RC4(enckey, data):
 
 def parse_config(raw_config):
     config_dict = {}
-    if 'JSocket in raw_config':
+    if 'JSocket' in raw_config:
         config = json.loads(raw_config)
         for k, v in config.iteritems():
             config_dict[k] = v
