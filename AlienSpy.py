@@ -4,7 +4,7 @@ AlienSpy Rat Rat Config Decoder
 '''
 __description__ = 'AlienSpy Rat Config Extractor'
 __author__ = 'Kevin Breen http://techanarchy.net http://malwareconfig.com'
-__version__ = '0.3'
+__version__ = '0.4'
 __date__ = '2015/10/30'
 
 #Standard Imports Go Here
@@ -34,7 +34,7 @@ def version_a(enckey, coded_jar):
                 config_dict[k] = v
             return config_dict
         except:
-            return
+            pass
 
 
 def version_b(enckey, coded_jar):
@@ -51,7 +51,7 @@ def version_b(enckey, coded_jar):
                     config_dict[re.findall('key="(.*?)"', line)[0]] = re.findall('>(.*?)</entry', line)[0]
             return config_dict
         except:
-            return
+            pass
 
 
 def version_c(enckey, coded_jar):
@@ -67,7 +67,7 @@ def version_c(enckey, coded_jar):
                 config_dict[k] = v
             return config_dict
         except:
-            return
+            pass
 
 
 def string_print(line):
