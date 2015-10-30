@@ -34,7 +34,7 @@ def version_a(enckey, coded_jar):
                 config_dict[k] = v
             return config_dict
         except:
-            pass
+            return
 
 
 def version_b(enckey, coded_jar):
@@ -51,7 +51,7 @@ def version_b(enckey, coded_jar):
                     config_dict[re.findall('key="(.*?)"', line)[0]] = re.findall('>(.*?)</entry', line)[0]
             return config_dict
         except:
-            pass
+            return
 
 
 def version_c(enckey, coded_jar):
@@ -67,7 +67,7 @@ def version_c(enckey, coded_jar):
                 config_dict[k] = v
             return config_dict
         except:
-            pass
+            return
 
 
 def string_print(line):
@@ -162,7 +162,7 @@ def decrypt_RC6(key, encrypted):
     return data
 
 def run(file_name):
-    enckey = coded_jar = raw_config = False
+    config_dict = False
     jar = ZipFile(file_name, 'r')
     # Version A
     if 'a.txt' and 'b.txt' in jar.namelist():
@@ -172,8 +172,6 @@ def run(file_name):
                   ]
         coded_jar = jar.read('b.txt')
         config_dict = version_a(enckey, coded_jar)
-        for domain in config_dict['NETWORK']:
-            dom_list.append(domain['DNS'])
 
     # Version B
     if 'ID' and 'MANIFEST.MF' in jar.namelist():
@@ -181,7 +179,6 @@ def run(file_name):
         enckey = ['{0}H3SUW7E82IKQK2J2J2IISIS'.format(pre_key)]
         coded_jar = jar.read('MANIFEST.MF')
         config_dict = version_b(enckey, coded_jar)
-        dom_list = [config_dict['dns']]
 
     # Version C
     if 'resource/password.txt' and 'resource/server.dll' in jar.namelist():
@@ -196,8 +193,6 @@ def run(file_name):
         enckey = ['TVDKSIWKSJDKEIUSYEIDWE{0}'.format(pre_key)]
         coded_jar = jar.read('java/stubcito.opp')
         config_dict = version_c(enckey, coded_jar)
-
-
 
     return config_dict
 
