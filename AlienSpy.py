@@ -219,8 +219,7 @@ if __name__ == "__main__":
         print "[+] Writing Config to file {0}".format(args[1])
         with open(args[1], 'a') as outFile:
             for key, value in sorted(config.iteritems()):
-                clean_value = filter(lambda x: x in string.printable, value)
-                outFile.write("Key: {0}\t Value: {1}\n".format(key,clean_value))
+                outFile.write("Key: {0}\t Value: {1}\n".format(key,string_print(value)))
     # if no seconds arg then assume you want it printing to screen
     else:
         print "[+] Printing Config to screen"
