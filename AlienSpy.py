@@ -193,6 +193,13 @@ def run(file_name):
         enckey = ['TVDKSIWKSJDKEIUSYEIDWE{0}'.format(pre_key)]
         coded_jar = jar.read('java/stubcito.opp')
         config_dict = version_c(enckey, coded_jar)
+        
+    # Version E
+    if 'java/textito.text' and 'java/resource.xsx' in jar.namelist():
+        pre_key = jar.read('java/textito.text')
+        enckey = ['kevthehermitGAYGAYXDXD{0}'.format(pre_key)]
+        coded_jar = jar.read('java/resource.xsx')
+        config_dict = version_c(enckey, coded_jar)
 
     return config_dict
 
