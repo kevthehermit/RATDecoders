@@ -19,7 +19,7 @@ from zipfile import ZipFile
 from cStringIO import StringIO
 
 #Non Standard Imports
-from Crypto.Cipher import ARC4
+from Crypto.Cipher import ARC4, XOR
 
 def version_a(enckey, coded_jar):
     config_dict = {}
@@ -161,6 +161,23 @@ def decrypt_RC6(key, encrypted):
     data = data.rstrip(b"\x00")
     return data
 
+
+def decrypt_XOR(key, data):
+    res = ""
+    for i in xrange(len(data)):
+        res += chr(ord(data[i]) ^ ord(key[i%len(key)]))
+    return res
+
+
+def xor_config(data):
+    config_dict = {}
+    enckey = "0x999sisosouuqjqhyysuhahyujssddqsad23rhggdsfsdfs"
+    raw_config = decrypt_XOR(enckey, data)
+    for line in raw_config.split('\n'):
+        if line.startswith('<entry key'):
+            config_dict[re.findall('key="(.*?)"', line)[0]] = re.findall('>(.*?)</entry', line)[0]
+    return config_dict
+
 def run(file_name):
     config_dict = False
     jar = ZipFile(file_name, 'r')
@@ -192,6 +209,13 @@ def run(file_name):
         pre_key = jar.read('java/textito.isn')
         enckey = ['TVDKSIWKSJDKEIUSYEIDWE{0}'.format(pre_key)]
         coded_jar = jar.read('java/stubcito.opp')
+        config_dict = version_c(enckey, coded_jar)
+
+    # Version E
+    if 'config/config.perl' in jar.namelist():
+        temp_config = xor_config(jar.read('config/config.perl'))
+        coded_jar = jar.read(temp_config['SERVER'].lstrip("/"))
+        enckey = ['kevthehermitGAYGAYXDXD{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
 
     return config_dict
