@@ -4,8 +4,8 @@ Adzok Rat Rat Config Extractor
 '''
 __description__ = 'Adzok Rat Config Extractor'
 __author__ = 'Kevin Breen http://techanarchy.net http://malwareconfig.com'
-__version__ = '0.1'
-__date__ = '2015/05/04'
+__version__ = '0.2'
+__date__ = '2015/11/08'
 
 #Standard Imports Go Here
 import os
@@ -36,8 +36,32 @@ def parse_config(raw_config):
         if line.startswith('<comment'):
             config_dict['Version'] = re.findall('>(.*?)</comment>', line)[0]
         if line.startswith('<entry key'):
-            config_dict[re.findall('key="(.*?)"', line)[0]] = re.findall('>(.*?)</entry', line)[0]
-    return config_dict
+            try:
+                config_dict[re.findall('key="(.*?)"', line)[0]] = re.findall('>(.*?)</entry', line)[0]
+            except:
+                config_dict[re.findall('key="(.*?)"', line)[0]] = 'Not Set'
+            finally:
+                pass
+
+    # Tidy the config
+    clean_config = {}
+    for k, v in config_dict.iteritems():
+        if k == 'dir':
+            clean_config['Install Path'] = v
+        if k == 'reg':
+            clean_config['Registrey Key'] = v
+        if k == 'pass':
+            clean_config['Password'] = v
+        if k == 'hidden':
+            clean_config['Hidden'] = v
+        if k == 'puerto':
+            clean_config['Port'] = v
+        if k == 'ip':
+            clean_config['Domain'] = v
+        if k == 'inicio':
+            clean_config['Install'] = v
+
+    return clean_config
 
 # Main
 if __name__ == "__main__":
