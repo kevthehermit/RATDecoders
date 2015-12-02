@@ -218,7 +218,7 @@ def run(file_name):
         coded_jar = jar.read('java/resource.xsx')
         config_dict = version_c(enckey, coded_jar)
 
-    # Version E
+    # Version F
     if 'config/config.perl' in jar.namelist():
         temp_config = xor_config(jar.read('config/config.perl'))
         coded_jar = jar.read(temp_config['SERVER'].lstrip("/"))
