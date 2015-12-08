@@ -169,9 +169,8 @@ def decrypt_XOR(key, data):
     return res
 
 
-def xor_config(data):
+def xor_config(data, enckey):
     config_dict = {}
-    enckey = "0x999sisosouuqjqhyysuhahyujssddqsad23rhggdsfsdfs"
     raw_config = decrypt_XOR(enckey, data)
     for line in raw_config.split('\n'):
         if line.startswith('<entry key'):
@@ -210,7 +209,7 @@ def run(file_name):
         enckey = ['TVDKSIWKSJDKEIUSYEIDWE{0}'.format(pre_key)]
         coded_jar = jar.read('java/stubcito.opp')
         config_dict = version_c(enckey, coded_jar)
-        
+
     # Version E
     if 'java/textito.text' and 'java/resource.xsx' in jar.namelist():
         pre_key = jar.read('java/textito.text')
@@ -220,9 +219,18 @@ def run(file_name):
 
     # Version F
     if 'config/config.perl' in jar.namelist():
-        temp_config = xor_config(jar.read('config/config.perl'))
+        temp_config = xor_config(jar.read('config/config.perl'), "0x999sisosouuqjqhyysuhahyujssddqsad23rhggdsfsdfs")
         coded_jar = jar.read(temp_config['SERVER'].lstrip("/"))
         enckey = ['kevthehermitGAYGAYXDXD{0}'.format(temp_config["PASSWORD"])]
+        config_dict = version_c(enckey, coded_jar)
+
+    return config_dict
+
+    # Version G
+    if 'config/config.pl' in jar.namelist():
+        temp_config = xor_config(jar.read('config/config.pl'), "VY999sisosouuqjqhyysuhahyujssddqsad22rhggdsfsdfs")
+        coded_jar = jar.read(temp_config['SERVER'].lstrip("/"))
+        enckey = ['kevthehermitGAYGAYGAYD{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
 
     return config_dict
