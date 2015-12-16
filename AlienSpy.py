@@ -217,6 +217,12 @@ def run(file_name):
         coded_jar = jar.read('java/resource.xsx')
         config_dict = version_c(enckey, coded_jar)
 
+    if 'amarillo/asdasd.asd' and 'amarillo/adqwdqwd.asdwf' in jar.namelist():
+        pre_key = jar.read('amarillo/asdasd.asd')
+        enckey = ['kevthehermitGAYGAYXDXD{0}'.format(pre_key)]
+        coded_jar = jar.read('amarillo/adqwdqwd.asdwf')
+        config_dict = version_c(enckey, coded_jar)
+
     # Version F
     if 'config/config.perl' in jar.namelist():
         temp_config = xor_config(jar.read('config/config.perl'), "0x999sisosouuqjqhyysuhahyujssddqsad23rhggdsfsdfs")
