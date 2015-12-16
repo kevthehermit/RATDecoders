@@ -226,14 +226,14 @@ def run(file_name):
     # Version F
     if 'config/config.perl' in jar.namelist():
         temp_config = xor_config(jar.read('config/config.perl'), "0x999sisosouuqjqhyysuhahyujssddqsad23rhggdsfsdfs")
-        coded_jar = jar.read(temp_config['SERVER'].lstrip("/"))
+        coded_jar = jar.read(temp_config['SERVER'][1:])
         enckey = ['kevthehermitGAYGAYXDXD{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
 
     # Version G
     if 'config/config.pl' in jar.namelist():
         temp_config = xor_config(jar.read('config/config.pl'), "VY999sisosouuqjqhyysuhahyujssddqsad22rhggdsfsdfs")
-        coded_jar = jar.read(temp_config['SERVER'].lstrip("/"))
+        coded_jar = jar.read(temp_config['SERVER'][1:])
         enckey = ['kevthehermitGAYGAYGAYD{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
 
