@@ -169,9 +169,8 @@ def decrypt_XOR(key, data):
     return res
 
 
-def xor_config(data):
+def xor_config(data, enckey):
     config_dict = {}
-    enckey = "0x999sisosouuqjqhyysuhahyujssddqsad23rhggdsfsdfs"
     raw_config = decrypt_XOR(enckey, data)
     for line in raw_config.split('\n'):
         if line.startswith('<entry key'):
@@ -210,7 +209,7 @@ def run(file_name):
         enckey = ['TVDKSIWKSJDKEIUSYEIDWE{0}'.format(pre_key)]
         coded_jar = jar.read('java/stubcito.opp')
         config_dict = version_c(enckey, coded_jar)
-        
+
     # Version E
     if 'java/textito.text' and 'java/resource.xsx' in jar.namelist():
         pre_key = jar.read('java/textito.text')
@@ -218,11 +217,31 @@ def run(file_name):
         coded_jar = jar.read('java/resource.xsx')
         config_dict = version_c(enckey, coded_jar)
 
+    if 'amarillo/asdasd.asd' and 'amarillo/adqwdqwd.asdwf' in jar.namelist():
+        pre_key = jar.read('amarillo/asdasd.asd')
+        enckey = ['kevthehermitGAYGAYXDXD{0}'.format(pre_key)]
+        coded_jar = jar.read('amarillo/adqwdqwd.asdwf')
+        config_dict = version_c(enckey, coded_jar)
+
     # Version F
     if 'config/config.perl' in jar.namelist():
-        temp_config = xor_config(jar.read('config/config.perl'))
-        coded_jar = jar.read(temp_config['SERVER'].lstrip("/"))
+        temp_config = xor_config(jar.read('config/config.perl'), "0x999sisosouuqjqhyysuhahyujssddqsad23rhggdsfsdfs")
+        coded_jar = jar.read(temp_config['SERVER'][1:])
         enckey = ['kevthehermitGAYGAYXDXD{0}'.format(temp_config["PASSWORD"])]
+        config_dict = version_c(enckey, coded_jar)
+
+    # Version G
+    if 'config/config.pl' in jar.namelist():
+        temp_config = xor_config(jar.read('config/config.pl'), "VY999sisosouuqjqhyysuhahyujssddqsad22rhggdsfsdfs")
+        coded_jar = jar.read(temp_config['SERVER'][1:])
+        enckey = ['kevthehermitGAYGAYGAYD{0}'.format(temp_config["PASSWORD"])]
+        config_dict = version_c(enckey, coded_jar)
+
+    # Version H
+    if 'config/config.ini' in jar.namelist():
+        temp_config = xor_config(jar.read('config/config.ini'), "ABJSIOODKKDIOSKKJDJUIOIKASJIOOQKSJIUDIKDKIAS")
+        coded_jar = jar.read(temp_config['SERVER'][1:])
+        enckey = ['kevthehermitGAYGAYGAYD{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
 
     return config_dict
