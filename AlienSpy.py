@@ -237,6 +237,13 @@ def run(file_name):
         enckey = ['kevthehermitGAYGAYGAYD{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
 
+    # Version H
+    if 'config/config.ini' in jar.namelist():
+        temp_config = xor_config(jar.read('config/config.ini'), "ABJSIOODKKDIOSKKJDJUIOIKASJIOOQKSJIUDIKDKIAS")
+        coded_jar = jar.read(temp_config['SERVER'][1:])
+        enckey = ['kevthehermitGAYGAYGAYD{0}'.format(temp_config["PASSWORD"])]
+        config_dict = version_c(enckey, coded_jar)
+
     return config_dict
 
 
