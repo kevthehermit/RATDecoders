@@ -244,6 +244,13 @@ def run(file_name):
         enckey = ['kevthehermitGAYGAYGAYD{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
 
+    # Version I
+    if 'windows/windows.ini' in jar.namelist():
+        temp_config = xor_config(jar.read('windows/windows.ini'),"adsdcwegtryhyurtgwefwedwscsdcwsdfcasfwqedfwefsdfasdqwdascfsdfvsdvwergvergerg")
+        coded_jar = jar.read(temp_config['SERVER'][1:])
+        enckey = ['kevthehermitGADGAYGAYD{0}'.format(temp_config["PASSWORD"])]
+        config_dict = version_c(enckey, coded_jar)
+
     return config_dict
 
 
