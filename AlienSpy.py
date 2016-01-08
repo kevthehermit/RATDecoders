@@ -251,6 +251,13 @@ def run(file_name):
         enckey = ['kevthehermitGADGAYGAYD{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
 
+    # Version J
+    if 'components/linux.plsk' in jar.namelist():
+        temp_config = xor_config(jar.read('components/linux.plsk'),"adsdcwegtryhyurtgwefwedwscsdcwsdfcasfwqedfwefsdfasdqwdascfsdfvsdvwergvergerg")
+        coded_jar = jar.read(temp_config['SERVER'][1:])
+        enckey = ['kevthehermitGADGAYGAYD{0}'.format(temp_config["PASSWORD"])]
+        config_dict = version_c(enckey, coded_jar)
+
     return config_dict
 
 
