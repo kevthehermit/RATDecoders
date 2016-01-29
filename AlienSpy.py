@@ -54,11 +54,11 @@ def version_b(enckey, coded_jar):
             pass
 
 
-def version_c(enckey, coded_jar):
+def version_c(enckey, coded_jar, rounds=20, P=0xB7E15163, Q=0x9E3779B9):
     config_dict = {}
     for key in enckey:
         print "  [!] testing Key {0}".format(key)
-        decoded_data = decrypt_RC6(key, coded_jar)
+        decoded_data = decrypt_RC6(key, coded_jar, rounds=rounds, P=P, Q=Q)
         try:
             decoded_jar = ZipFile(StringIO(decoded_data))
             raw_config = decoded_jar.read('org/jsocket/resources/config.json')
@@ -68,6 +68,9 @@ def version_c(enckey, coded_jar):
             return config_dict
         except:
             pass
+
+def version_d(enckey, coded_jar):
+    return version_c(enckey, coded_jar, rounds=22, P=0xb7e15263, Q=0x9e3779c9)
 
 
 def string_print(line):
@@ -82,7 +85,7 @@ def decrypt_RC4(enckey, data):
 	return cipher.decrypt(data) # decrpyt the data
 
 
-def decrypt_RC6(key, encrypted):
+def decrypt_RC6(key, encrypted, P, Q, rounds):
     def rol(a, i):
         a &= 0xFFFFFFFF
         i &= 0x1F
@@ -104,9 +107,9 @@ def decrypt_RC6(key, encrypted):
     def decrypt_block(block, S):
         # Decrypt block
         ints = to_int(block)
-        ints[0] = (ints[0] - S[42])
-        ints[2] = (ints[2] - S[43])
-        for i in reversed(range(20)):
+        ints[0] = (ints[0] - S[T-2])
+        ints[2] = (ints[2] - S[T-1])
+        for i in reversed(range(rounds)):
             r = i+1
 
             # rotate ints
@@ -127,27 +130,25 @@ def decrypt_RC6(key, encrypted):
                 decrypted.append(ints[i] >> (j * 8) & 0xFF)
         return decrypted
 
-    P = 0xB7E15163
-    rounds = 20
-    Q = 0x9E3779B9
+    T = 2 * rounds + 4
 
     # Expand key
     L = to_int(key)
     S = []
-    S = [0 for i in range(44)]
+    S = [0 for i in range(T)]
     S[0] = P
 
-    for x in range(43):
+    for x in range(T-1):
         S[x+1] = (S[x] + Q) & 0xFFFFFFFF
     i = 0
     j = 0
     A = 0
     B = 0
 
-    for x in xrange(132):
+    for x in xrange(3*T):
         A = S[i] = rol((S[i] + A + B), 3)
         B = L[j] = rol((L[j] + A + B), (A + B))
-        i = (i + 1) % 44
+        i = (i + 1) % T
         j = (j + 1) % 8
 
     # Decrypt blocks
@@ -162,16 +163,25 @@ def decrypt_RC6(key, encrypted):
     return data
 
 
-def decrypt_XOR(key, data):
-    res = ""
-    for i in xrange(len(data)):
-        res += chr(ord(data[i]) ^ ord(key[i%len(key)]))
-    return res
-
+def decrypt_XOR(keys, data):
+    for key in keys:
+        res = ""
+        for i in xrange(len(data)):
+            res += chr(ord(data[i]) ^ ord(key[i%len(key)]))
+        if "SERVER" in res:
+            return res
 
 def xor_config(data, enckey):
     config_dict = {}
-    raw_config = decrypt_XOR(enckey, data)
+    xor_keys = ["0x999sisosouuqjqhyysuhahyujssddqsad23rhggdsfsdfs",
+                "VY999sisosouuqjqhyysuhahyujssddqsad22rhggdsfsdfs",
+                "ABJSIOODKKDIOSKKJDJUIOIKASJIOOQKSJIUDIKDKIAS",
+                "fkfjgioelsqisoosidiijsdndcbhchyduwiqoqpqwoieweueidjdshsjahshquuiqoaooasisjdhdfh",
+                "adsdcwegtryhyurtgwefwedwscsdcwsdfcasfwqedfwefsdfasdqwdascfsdfvsdvwergvergerg",
+                "adsdcwegtryhyurtgwefwedwscsdcwsdfcasfwqedfwefsdfasdqwdascfsdfvsdvwergvergerg",
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "lolskmzzzznzbxbxjxjjzkkzzkiziopoakidqoiwjdiqjhwdiqjwiodjdhjhbhbvhcebucbecercsdsd"]
+    raw_config = decrypt_XOR(xor_keys, data)
     for line in raw_config.split('\n'):
         if line.startswith('<entry key'):
             config_dict[re.findall('key="(.*?)"', line)[0]] = re.findall('>(.*?)</entry', line)[0]
@@ -225,38 +235,54 @@ def run(file_name):
 
     # Version F
     if 'config/config.perl' in jar.namelist():
-        temp_config = xor_config(jar.read('config/config.perl'), "0x999sisosouuqjqhyysuhahyujssddqsad23rhggdsfsdfs")
+        temp_config = xor_config(jar.read('config/config.perl'))
         coded_jar = jar.read(temp_config['SERVER'][1:])
         enckey = ['kevthehermitGAYGAYXDXD{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
 
     # Version G
     if 'config/config.pl' in jar.namelist():
-        temp_config = xor_config(jar.read('config/config.pl'), "VY999sisosouuqjqhyysuhahyujssddqsad22rhggdsfsdfs")
+        temp_config = xor_config(jar.read('config/config.pl'))
         coded_jar = jar.read(temp_config['SERVER'][1:])
         enckey = ['kevthehermitGAYGAYGAYD{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
 
     # Version H
     if 'config/config.ini' in jar.namelist():
-        temp_config = xor_config(jar.read('config/config.ini'), "ABJSIOODKKDIOSKKJDJUIOIKASJIOOQKSJIUDIKDKIAS")
+        temp_config = xor_config(jar.read('config/config.ini'))
         coded_jar = jar.read(temp_config['SERVER'][1:])
-        enckey = ['kevthehermitGAYGAYGAYD{0}'.format(temp_config["PASSWORD"])]
+        enckey = ['kevthehermitGAYGAYGAYD{0}'.format(temp_config["PASSWORD"]),
+                  'kevthehermitGADGAYGAYD{}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
 
     # Version I
     if 'windows/windows.ini' in jar.namelist():
-        temp_config = xor_config(jar.read('windows/windows.ini'),"adsdcwegtryhyurtgwefwedwscsdcwsdfcasfwqedfwefsdfasdqwdascfsdfvsdvwergvergerg")
+        temp_config = xor_config(jar.read('windows/windows.ini'))
         coded_jar = jar.read(temp_config['SERVER'][1:])
         enckey = ['kevthehermitGADGAYGAYD{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
 
     # Version J
     if 'components/linux.plsk' in jar.namelist():
-        temp_config = xor_config(jar.read('components/linux.plsk'),"adsdcwegtryhyurtgwefwedwscsdcwsdfcasfwqedfwefsdfasdqwdascfsdfvsdvwergvergerg")
+        temp_config = xor_config(jar.read('components/linux.plsk'))
         coded_jar = jar.read(temp_config['SERVER'][1:])
-        enckey = ['kevthehermitGADGAYGAYD{0}'.format(temp_config["PASSWORD"])]
+        enckey = ['kevthehermitGADGAYGAYD{0}'.format(temp_config["PASSWORD"]),
+                  'LDLDKFJVUI39OWIS9WOQ92{}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
+
+    # Version K
+    if 'components/manifest.ini' in jar.namelist():
+        temp_config = xor_config(jar.read('components/manifest.ini'))
+        coded_jar = jar.read(temp_config['SERVER'][1:])
+        enckey = ['LDLDKFJVUI39OWIS9WOQ93{0}'.format(temp_config["PASSWORD"])]
+        config_dict = version_d(enckey, coded_jar)
+
+    # Version L
+    if 'components/mac.hwid' in jar.namelist():
+        temp_config = xor_config(jar.read('components/mac.hwid'))
+        coded_jar = jar.read(temp_config['SERVER'][1:])
+        enckey = ['LDLDKFJVUI39OWIS9WOQ92{0}'.format(temp_config["PASSWORD"])]
+        config_dict = version_d(enckey, coded_jar)
 
     return config_dict
 
