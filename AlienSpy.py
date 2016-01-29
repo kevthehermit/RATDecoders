@@ -171,7 +171,7 @@ def decrypt_XOR(keys, data):
         if "SERVER" in res:
             return res
 
-def xor_config(data, enckey):
+def xor_config(data):
     config_dict = {}
     xor_keys = ["0x999sisosouuqjqhyysuhahyujssddqsad23rhggdsfsdfs",
                 "VY999sisosouuqjqhyysuhahyujssddqsad22rhggdsfsdfs",
