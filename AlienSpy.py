@@ -271,6 +271,8 @@ def run(file_name):
         enckey = ['kevthehermitGADGAYGAYD{0}'.format(temp_config["PASSWORD"]),
                   'LDLDKFJVUI39OWIS9WOQ92{}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
+        if config_dict is None:
+            config_dict = version_d(enckey, coded_jar)
 
     # Version K
     if 'components/manifest.ini' in jar.namelist():
