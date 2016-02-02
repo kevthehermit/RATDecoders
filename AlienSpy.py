@@ -288,7 +288,7 @@ def run(file_name):
         enckey = ['LDLDKFJVUI39OWIS9WOQ92{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_d(enckey, coded_jar)
 
-    # Version K
+    # Version M
     if 'components/logo.png' in jar.namelist():
         temp_config = xor_config(jar.read('components/logo.png'))
         coded_jar = jar.read(temp_config['SERVER'][1:])
