@@ -182,6 +182,7 @@ def xor_config(data):
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "lolskmzzzznzbxbxjxjjzkkzzkiziopoakidqoiwjdiqjhwdiqjwiodjdhjhbhbvhcebucbecercsdsd",
                 "Zlolskmzzzznzbxbxjxjjzkkzzkiziopoakidqoiwjdiqjhwdiqjwiodjdhjhbhbvhcebucbecercsdsd",
+                "aaaaaaaaaaaaaaaaaaaaa",
                 ]
     raw_config = decrypt_XOR(xor_keys, data)
     for line in raw_config.split('\n'):
