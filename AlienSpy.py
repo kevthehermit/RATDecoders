@@ -189,7 +189,6 @@ def xor_config(data):
     for line in raw_config.split('\n'):
         if line.startswith('<entry key'):
             config_dict[re.findall('key="(.*?)"', line)[0]] = re.findall('>(.*?)</entry', line)[0]
-    print config_dict
     return config_dict
 
 def run(file_name):
