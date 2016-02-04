@@ -183,11 +183,13 @@ def xor_config(data):
                 "lolskmzzzznzbxbxjxjjzkkzzkiziopoakidqoiwjdiqjhwdiqjwiodjdhjhbhbvhcebucbecercsdsd",
                 "Zlolskmzzzznzbxbxjxjjzkkzzkiziopoakidqoiwjdiqjhwdiqjwiodjdhjhbhbvhcebucbecercsdsd",
                 "aaaaaaaaaaaaaaaaaaaaa",
+                "kevthehermitisacompletegaywhatfuckwithhismotherXDXDXD",
                 ]
     raw_config = decrypt_XOR(xor_keys, data)
     for line in raw_config.split('\n'):
         if line.startswith('<entry key'):
             config_dict[re.findall('key="(.*?)"', line)[0]] = re.findall('>(.*?)</entry', line)[0]
+    print config_dict
     return config_dict
 
 def run(file_name):
@@ -295,6 +297,14 @@ def run(file_name):
         coded_jar = jar.read(temp_config['SERVER'][1:])
         enckey = ['LDLDKFJVUI39OWIS9WOQ93{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_d(enckey, coded_jar)
+
+    # Version N
+    if 'components/picture.gif' in jar.namelist():
+        temp_config = xor_config(jar.read('components/picture.gif'))
+        coded_jar = jar.read(temp_config['SERVER'][1:])
+        enckey = ['TDLDKFJVUI39OWIS9WOQ93{0}'.format(temp_config["PASSWORD"])]
+        config_dict = version_d(enckey, coded_jar)
+
     return config_dict
 
 
