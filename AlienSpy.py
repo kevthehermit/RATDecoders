@@ -171,7 +171,7 @@ def decrypt_XOR(keys, data):
         if "SERVER" in res:
             return res
 
-def xor_config(data, enckey):
+def xor_config(data):
     config_dict = {}
     xor_keys = ["0x999sisosouuqjqhyysuhahyujssddqsad23rhggdsfsdfs",
                 "VY999sisosouuqjqhyysuhahyujssddqsad22rhggdsfsdfs",
@@ -180,7 +180,11 @@ def xor_config(data, enckey):
                 "adsdcwegtryhyurtgwefwedwscsdcwsdfcasfwqedfwefsdfasdqwdascfsdfvsdvwergvergerg",
                 "adsdcwegtryhyurtgwefwedwscsdcwsdfcasfwqedfwefsdfasdqwdascfsdfvsdvwergvergerg",
                 "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "lolskmzzzznzbxbxjxjjzkkzzkiziopoakidqoiwjdiqjhwdiqjwiodjdhjhbhbvhcebucbecercsdsd"]
+                "lolskmzzzznzbxbxjxjjzkkzzkiziopoakidqoiwjdiqjhwdiqjwiodjdhjhbhbvhcebucbecercsdsd",
+                "Zlolskmzzzznzbxbxjxjjzkkzzkiziopoakidqoiwjdiqjhwdiqjwiodjdhjhbhbvhcebucbecercsdsd",
+                "aaaaaaaaaaaaaaaaaaaaa",
+                "kevthehermitisacompletegaywhatfuckwithhismotherXDXDXD",
+                ]
     raw_config = decrypt_XOR(xor_keys, data)
     for line in raw_config.split('\n'):
         if line.startswith('<entry key'):
@@ -269,6 +273,8 @@ def run(file_name):
         enckey = ['kevthehermitGADGAYGAYD{0}'.format(temp_config["PASSWORD"]),
                   'LDLDKFJVUI39OWIS9WOQ92{}'.format(temp_config["PASSWORD"])]
         config_dict = version_c(enckey, coded_jar)
+        if config_dict is None:
+            config_dict = version_d(enckey, coded_jar)
 
     # Version K
     if 'components/manifest.ini' in jar.namelist():
@@ -282,6 +288,20 @@ def run(file_name):
         temp_config = xor_config(jar.read('components/mac.hwid'))
         coded_jar = jar.read(temp_config['SERVER'][1:])
         enckey = ['LDLDKFJVUI39OWIS9WOQ92{0}'.format(temp_config["PASSWORD"])]
+        config_dict = version_d(enckey, coded_jar)
+
+    # Version M
+    if 'components/logo.png' in jar.namelist():
+        temp_config = xor_config(jar.read('components/logo.png'))
+        coded_jar = jar.read(temp_config['SERVER'][1:])
+        enckey = ['LDLDKFJVUI39OWIS9WOQ93{0}'.format(temp_config["PASSWORD"])]
+        config_dict = version_d(enckey, coded_jar)
+
+    # Version N
+    if 'components/picture.gif' in jar.namelist():
+        temp_config = xor_config(jar.read('components/picture.gif'))
+        coded_jar = jar.read(temp_config['SERVER'][1:])
+        enckey = ['TDLDKFJVUI39OWIS9WOQ93{0}'.format(temp_config["PASSWORD"])]
         config_dict = version_d(enckey, coded_jar)
 
     return config_dict
