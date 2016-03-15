@@ -27,6 +27,7 @@ Here is a list of the currently supported RATS:
 - Graeme
 - HawkEye
 - jRat
+- jSpy
 - LostDoor
 - LuxNet
 - njRat
