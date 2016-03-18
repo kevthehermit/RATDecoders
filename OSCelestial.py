@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-jSpy Config Decoder
+OS Celestial Config Decoder
 '''
 __description__ = 'OS Celestial Rat Config Extractor'
 __author__ = 'Anthony Kasza'
