@@ -21,6 +21,7 @@ except:
   from StringIO import StringIO
 
 
+
 def xor(enc, key):
   dec = ''
   i = 0
@@ -31,32 +32,57 @@ def xor(enc, key):
 
 
 def decode_config(zf):
-  fields = ['port', 'startup', 'id', 'version', 'stealth', 'melt']
-  dat = {}
-  if 'com/stub/config/config.txt' in zf.namelist():
-    raw = zf.read('com/stub/config/config.txt')
-    raw, key = raw.strip().split(':')
-    data = xor(b64.b64decode(raw), key)
-    dat.update( dict(zip(fields, data.split(':'))) )
-  if 'com/stub/config/hosts.txt' in zf.namelist():
-    raw = zf.read('com/stub/config/hosts.txt')
-    raw = raw.strip()
-    data = xor(b64.b64decode(raw), key)
-    data = [each for each in re.split('\r?\n', data) if each]
-    dat['ip'] = data
-  if 'com/stub/config/plugins.txt' in zf.namelist():
-    raw = zf.read('com/stub/config/plugins.txt')
-    raw = raw.strip()
-    data = xor(b64.b64decode(raw), key)
-    dat['plugins'] = data
-  return dat
-
+  # TO DO: DETERMINE CONFIG VALUE MEANINGS for implant versions 1.71
+  fields = ['port', 'id', 'version', 'UNKNOWN_FIELD_1']
+  if 'config/stubconfig.txt' in zf.namelist():
+    dat = {}
+    if 'config/stubconfig.txt' in zf.namelist():
+      raw = zf.read('config/stubconfig.txt')
+      raw, key = raw.strip().split(':')
+      data = xor(b64.b64decode(raw), key)
+      dat.update( dict(zip(fields, data.split(':'))) )
+    if 'config/hosts.txt' in zf.namelist():
+      raw = zf.read('config/hosts.txt')
+      raw = raw.strip()
+      data = xor(b64.b64decode(raw), key)
+      data = [each for each in re.split('\r?\n', data) if each]
+      dat['ip'] = data
+    if 'config/stubconfig.txt' in zf.namelist():
+      raw = zf.read('config/stubconfig.txt')
+      raw = raw.strip().split(':')
+      data = xor(b64.b64decode(raw[0]), raw[1])
+      dat.update( dict(zip(['UNKNOWN_FIELD_2'], data)) )
+    return dat
+  # Based on version 1.42
+  else:
+    fields = ['port', 'startup', 'id', 'version', 'stealth', 'melt']
+    dat = {}
+    if 'com/stub/config/config.txt' in zf.namelist():
+      raw = zf.read('com/stub/config/config.txt')
+      raw, key = raw.strip().split(':')
+      data = xor(b64.b64decode(raw), key)
+      dat.update( dict(zip(fields, data.split(':'))) )
+    if 'com/stub/config/hosts.txt' in zf.namelist():
+      raw = zf.read('com/stub/config/hosts.txt')
+      raw = raw.strip()
+      data = xor(b64.b64decode(raw), key)
+      data = [each for each in re.split('\r?\n', data) if each]
+      dat['ip'] = data
+    if 'com/stub/config/plugins.txt' in zf.namelist():
+      raw = zf.read('com/stub/config/plugins.txt')
+      raw = raw.strip()
+      data = xor(b64.b64decode(raw), key)
+      dat['plugins'] = data
+    return dat
 
 
 def run(file_name, out_file):
   with ZipFile(file_name, 'r') as zf:
+    # NOTE: order matters here - some files are located in different vesions
+    if 'config/stubconfig.txt' in zf.namelist():
+      config = decode_config(zf)
     # file is a JAR that drops the implant JAR
-    if 'config/resource.dat' in zf.namelist():
+    elif 'config/resource.dat' in zf.namelist():
       embeded_jar = StringIO()
       embeded_jar.write(zlib.decompress(zf.read('config/resource.dat')))
       with ZipFile(embeded_jar, 'r') as new_zf:
@@ -66,6 +92,7 @@ def run(file_name, out_file):
       config = decode_config(zf)
     else:
       print "  [-] Unable to locate any possible configuration files"
+      return
 
   # we found a config, woot
   if len(config.keys()) > 0:
