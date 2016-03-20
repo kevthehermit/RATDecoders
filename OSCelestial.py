@@ -46,6 +46,9 @@ def readIO(args):
   visible = 'true'
   key = ''
   ip.add("127.0.0.1")
+  melt = ''
+  filePath = ''
+  startup = ''
 
   for i in range(0, len(args)):
     if i == 0:
@@ -81,7 +84,8 @@ def readIO(args):
         ip = set(hosts)
       continue
   return {'directory': directory, 'ip': ip, 'version': version, 'port': port, 'id': id,
-          'disableKeylogger': disableKeylogger, 'visible': visible, 'key': key}
+          'disableKeylogger': disableKeylogger, 'visible': visible, 'key': key, 
+          'melt': melt, 'filePath': filePath, 'startup': startup}
 
 
 
