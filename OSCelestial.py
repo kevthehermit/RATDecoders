@@ -4,8 +4,8 @@ OS Celestial Config Decoder
 '''
 __description__ = 'OS Celestial Rat Config Extractor'
 __author__ = 'Anthony Kasza'
-__version__ = '0.1'
-__date__ = '2016/03/17'
+__version__ = '0.269'
+__date__ = '2016/03/20'
 
 # Note: OS Celestial is *very* likely an updated version of jSpy
 
@@ -16,13 +16,13 @@ import base64 as b64
 from optparse import OptionParser
 from zipfile import ZipFile
 try:
-  from StringIO import cStringIO
+  from cStringIO import cStringIO
 except:
   from StringIO import StringIO
 
 
 
-def xor(enc, key):
+def xor_with_key(enc, key):
   dec = ''
   i = 0
   while i < len(enc):
@@ -31,47 +31,100 @@ def xor(enc, key):
   return dec
 
 
+def decode(enc, key):
+  return xor_with_key(b64.b64decode(enc), key)
+
+
+def readIO(args):
+  directory = "osc_files";
+#  localPath = new File(System.getProperty("user.home"), directory);
+  ip = set([])
+  version = "Undefined"
+  port = 3175
+  id = "Undefined"
+  disableKeylogger = 'false'
+  visible = 'true'
+  key = ''
+  ip.add("127.0.0.1")
+
+  for i in range(0, len(args)):
+    if i == 0:
+      orangeBits = args[i].split(":");
+      if args[0]:
+        filePath = b64.b64decode(orangeBits[0])
+      if args[1]:
+        startup = orangeBits[1]
+      if args[2]:
+        melt = orangeBits[2]
+      continue
+    if i == 1:
+      config = args[i]
+      if len(config.split(":")) == 2:
+        enc_config, key = config.split(":")
+        config = decode(enc_config, key);
+      configsplit = config.split(":");
+      port = configsplit[0]
+      id = configsplit[1]
+      version = configsplit[2]
+      if len(configsplit) > 3:
+        disableKeylogger = configsplit[3]
+      else:
+        disableKeylogger = 'true'
+      if len(configsplit) > 4:
+        visible = configsplit[4]
+        continue
+      visible = 'true'
+      continue
+    if i == 2:
+      hosts = [each for each in re.split("\\r?\\n", decode(args[i], key)) if each]
+      if len(hosts) > 0:
+        ip = set(hosts)
+      continue
+  return {'directory': directory, 'ip': ip, 'version': version, 'port': port, 'id': id,
+          'disableKeylogger': disableKeylogger, 'visible': visible, 'key': key}
+
+
+
+#config.txt, stubconfig.txt, hosts.txt
+
 def decode_config(zf):
-  # TO DO: DETERMINE CONFIG VALUE MEANINGS for implant versions 1.71
-  fields = ['port', 'id', 'version', 'UNKNOWN_FIELD_1']
   if 'config/stubconfig.txt' in zf.namelist():
-    dat = {}
-    if 'config/stubconfig.txt' in zf.namelist():
-      raw = zf.read('config/stubconfig.txt')
-      raw, key = raw.strip().split(':')
-      data = xor(b64.b64decode(raw), key)
-      dat.update( dict(zip(fields, data.split(':'))) )
-    if 'config/hosts.txt' in zf.namelist():
-      raw = zf.read('config/hosts.txt')
-      raw = raw.strip()
-      data = xor(b64.b64decode(raw), key)
-      data = [each for each in re.split('\r?\n', data) if each]
-      dat['ip'] = data
-    if 'config/stubconfig.txt' in zf.namelist():
-      raw = zf.read('config/stubconfig.txt')
-      raw = raw.strip().split(':')
-      data = xor(b64.b64decode(raw[0]), raw[1])
-      dat.update( dict(zip(['UNKNOWN_FIELD_2'], data)) )
-    return dat
-  # Based on version 1.42
+    args = []
+    try:
+      config = zf.read("config/config.txt")
+      args.append(config)
+    except:
+      pass
+    try:
+      stubconfig = zf.read("config/stubconfig.txt")
+      args.append(stubconfig)
+    except:
+      pass
+    try:
+      hosts = zf.read("config/hosts.txt")
+      args.append(hosts)
+    except:
+      pass
+    return readIO(args)
   else:
+    # older versions of implants are weird
     fields = ['port', 'startup', 'id', 'version', 'stealth', 'melt']
     dat = {}
     if 'com/stub/config/config.txt' in zf.namelist():
       raw = zf.read('com/stub/config/config.txt')
       raw, key = raw.strip().split(':')
-      data = xor(b64.b64decode(raw), key)
+      data = decode(raw, key)
       dat.update( dict(zip(fields, data.split(':'))) )
     if 'com/stub/config/hosts.txt' in zf.namelist():
       raw = zf.read('com/stub/config/hosts.txt')
       raw = raw.strip()
-      data = xor(b64.b64decode(raw), key)
-      data = [each for each in re.split('\r?\n', data) if each]
+      data = decode(raw, key)
+      data = set([each for each in re.split('\r?\n', data) if each])
       dat['ip'] = data
     if 'com/stub/config/plugins.txt' in zf.namelist():
       raw = zf.read('com/stub/config/plugins.txt')
       raw = raw.strip()
-      data = xor(b64.b64decode(raw), key)
+      data = decode(raw, key)
       dat['plugins'] = data
     return dat
 
@@ -131,3 +184,5 @@ if __name__ == "__main__":
     run(args[0], None)
   else:
     print "[+] You need to specify input"
+import re
+import base64 as b64
