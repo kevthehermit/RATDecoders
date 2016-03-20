@@ -47,14 +47,14 @@ def readIO(args):
   key = ''
   ip.add("127.0.0.1")
   melt = ''
-  filePath = ''
+  stealth = ''
   startup = ''
 
   for i in range(0, len(args)):
     if i == 0:
       orangeBits = args[i].split(":");
       if args[0]:
-        filePath = b64.b64decode(orangeBits[0])
+        stealth = orangeBits[0]
       if args[1]:
         startup = orangeBits[1]
       if args[2]:
@@ -84,8 +84,8 @@ def readIO(args):
         ip = set(hosts)
       continue
   return {'directory': directory, 'ip': ip, 'version': version, 'port': port, 'id': id,
-          'disableKeylogger': disableKeylogger, 'visible': visible, 'key': key, 
-          'melt': melt, 'filePath': filePath, 'startup': startup}
+          'disableKeylogger': disableKeylogger, 'visible': visible, 'key': key,
+          'melt': melt, 'stealth': stealth, 'startup': startup}
 
 
 
