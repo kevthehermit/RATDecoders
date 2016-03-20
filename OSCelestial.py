@@ -49,16 +49,19 @@ def readIO(args):
   melt = ''
   stealth = ''
   startup = ''
+  embedded_jar_xor_key = ''
 
   for i in range(0, len(args)):
     if i == 0:
       orangeBits = args[i].split(":");
-      if args[0]:
+      if orangeBits[0]:
         stealth = orangeBits[0]
-      if args[1]:
+      if orangeBits[1]:
         startup = orangeBits[1]
-      if args[2]:
+      if orangeBits[2]:
         melt = orangeBits[2]
+      if orangeBits[3]:
+        embedded_jar_xor_key = orangeBits[3]
       continue
     if i == 1:
       config = args[i]
@@ -85,7 +88,8 @@ def readIO(args):
       continue
   return {'directory': directory, 'ip': ip, 'version': version, 'port': port, 'id': id,
           'disableKeylogger': disableKeylogger, 'visible': visible, 'key': key,
-          'melt': melt, 'stealth': stealth, 'startup': startup}
+          'melt': melt, 'stealth': stealth, 'startup': startup, 
+          'embedded_jar_xor_key': embedded_jar_xor_key}
 
 
 
@@ -109,7 +113,14 @@ def decode_config(zf):
       args.append(hosts)
     except:
       pass
-    return readIO(args)
+    data = readIO(args)
+#    if 'config/resource.dat' in zf.namelist():
+#      res = zf.read('config/resource.dat')
+#      res = zlib.decompress(res)
+#      res = xor_with_key(res, data['embedded_jar_xor_key'])
+#      with open('embeded.jar', 'wb') as f:
+#        f.write(res)
+    return data
   else:
     # older versions of implants are weird
     fields = ['port', 'startup', 'id', 'version', 'stealth', 'melt']
@@ -185,8 +196,6 @@ if __name__ == "__main__":
   if len(args) == 2:
     run(args[0], args[1])
   elif len(args) == 1:
-    run(args[0], None)
+    run(args[0], None, )
   else:
     print "[+] You need to specify input"
-import re
-import base64 as b64
