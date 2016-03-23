@@ -31,6 +31,7 @@ Here is a list of the currently supported RATS:
 - LostDoor
 - LuxNet
 - njRat
+- OSCelestial
 - Pandora
 - PoisionIvy
 - PredatorPain

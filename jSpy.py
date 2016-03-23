@@ -15,6 +15,7 @@ from zipfile import ZipFile
 
 def run(file_name, out_file):
   fields = ['IP/DNS', 'Port', 'Startup', 'Identification', 'Version', 'Stealth Mode']
+  config = None
   with ZipFile(file_name, 'r') as zf:
     for name in zf.namelist():
       if 'config.txt' in name:
