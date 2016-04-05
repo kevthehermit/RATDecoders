@@ -52,7 +52,12 @@ Here is a list of the currently supported RATS:
 
 ###Usage
 
-- Each Script comes with its own -h option use it :)
+The decoders now act like a framework with auto family detection. You can still find the original individual decoders in the archive folder. These will not be 
+kept as up to date as the decoders in the framework. 
+
+```python ratdecoder.py```
+
+```python ratdecoder.py -l``` This will list all the supported rats
 
 ###Requirements
 
@@ -62,6 +67,7 @@ This list is a complete listing of all the Python Modules
 - pefile
 - pycrypto
 - pype32
+- Yara
 
 ### ToDo
 

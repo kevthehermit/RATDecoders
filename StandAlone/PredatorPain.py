@@ -59,6 +59,7 @@ def string_clean(line):
 # Crypto Stuffs
 def decrypt_string(key, salt, coded):
     #try:
+        print coded
         # Derive key
         generator = PBKDF2(key, salt)
         aes_iv = generator.read(16)
