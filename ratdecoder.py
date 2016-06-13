@@ -144,7 +144,7 @@ if __name__ == "__main__":
             sys.exit()
 
         # Read all the things
-        for filename in os.lsitdir(args[0]):
+        for filename in os.listdir(args[0]):
             file_data = open(os.path.join(args[0], filename), 'rb').read()
             print "[+] Reading {0}".format(filename)
             config_data = run(file_data)
