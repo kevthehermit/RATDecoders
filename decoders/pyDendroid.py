@@ -32,6 +32,11 @@ def extract_config(apkfile):
                             string = inst.get_output().split(',')[-1].strip(" '")
                             if "=" in string:
                                 szTemp = (urllib.unquote(base64.b64decode(string)))
+                            else:
+                                try:
+                                    szTemp = (urllib.unquote(base64.b64decode(string)))
+                                except:
+                                    szTemp = string
                         if inst.get_name() == 'iput-object':
                             if "encodedURL" in inst.get_output():
                                 szURL = szTemp
