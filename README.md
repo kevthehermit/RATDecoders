@@ -13,41 +13,51 @@ The write-up is here http://techanarchy.net/2014/04/rat-decoders/
 Here is a list of the currently supported RATS:
 
 - Adwind
+- Adzok
 - Albertino Advanced RAT
+- AlienSpy
 - Arcom
 - BlackNix
 - BlackShades
 - Blue Banana
 - Bozok
 - ClientMesh
+- Crimson
 - CyberGate
 - DarkComet
-- drakddoser
+- darkddoser
 - DarkRat
+- Gh0st
 - Graeme
 - HawkEye
+- JavaDropper
 - jRat
 - jSpy
 - LostDoor
 - LuxNet
+- NanoCore
 - njRat
 - Pandora
 - PoisionIvy
 - PredatorPain
 - Punisher
-- SpyGate
+- QRat
+- Sakula
+- ShadowTech
 - SmallNet
+- SpyGate
+- Tapaoux
 - Unrecom
 - Vantom
 - Vertex
 - VirusRat
 - Xena
+- xRat
 - xtreme
 
 ###Upcoming RATS
 
 - NetWire
-- Gh0st
 - Plasma
 - Any Other Rats i can find.
 
@@ -69,6 +79,7 @@ This list is a complete listing of all the Python Modules
 - pycrypto
 - pype32
 - Yara
+- pbkdf2
 
 ### ToDo
 
