@@ -155,11 +155,7 @@ if __name__ == "__main__":
             sys.exit()
 
         # Read in the file.
-        file_data = open(os.path.join(args[0], args[0]), 'rb').read()
+        file_data = open(args[0], 'rb').read()
         print "[+] Reading {0}".format(args[0])
         config_data = run(file_data)
         print_output(config_data, options.output)
-
-
-
-
