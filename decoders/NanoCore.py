@@ -8,11 +8,13 @@ import uuid
 #Non Standard Imports
 from Crypto.Cipher import DES, AES
 import pefile
+import pype32
 
 def config(raw_data):
     #try:
     if True:
         coded_config = get_codedconfig(raw_data)
+
         if coded_config[0:4] == '\x08\x00\x00\x00':
             conf_dict = decrypt_v2(coded_config)
             domain_list = [conf_dict["Domain1"], conf_dict["Domain2"]]
@@ -22,6 +24,7 @@ def config(raw_data):
             guid = re.search('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}', raw_data).group()
             guid = uuid.UUID(guid).bytes_le
             encrypted_key = coded_config[4:20]
+
             # rfc2898 derive bytes
             derived_key = derive_key(guid, encrypted_key)
             conf_dict = decrypt_v3(coded_config, derived_key)
@@ -132,13 +135,25 @@ def parse_config(raw_config, ver):
         config_dict['PreventSystemSleep'] = re.search('PreventSystemSleep(.*?)\x0c', raw_config).group()[19:-1].encode('hex')
 
         config_dict['EnableDebugMode'] = re.search('EnableDebugMode(.*?)\x0c', raw_config).group()[16:-1].encode('hex')
-        config_dict['ConnectDelay'] = unpack("<i", re.search('ConnectDelay(.*?)\x0c', raw_config).group()[13:-1])[0]
-        config_dict['RestartDelay'] = unpack("<i", re.search('RestartDelay(.*?)\x0c', raw_config).group()[13:-1])[0]
+
+        try:
+            config_dict['ConnectDelay'] = unpack("<i", re.search('ConnectDelay(.*?)\x0c', raw_config).group()[13:-1])[0]
+            config_dict['RestartDelay'] = unpack("<i", re.search('RestartDelay(.*?)\x0c', raw_config).group()[13:-1])[0]
+        except:
+            pass
+            #config_dict['RunDelay'] = unpack("<i", re.search('RunDelay(.*?)\x0c', raw_config).group()[7:-1])[0]
+
         try:
             config_dict['UseCustomDNS'] = re.search('UseCustomDnsServer(.*?)\x0c', raw_config).group()[19:-1].encode('hex')
             config_dict['PrimaryDNSServer'] = re.search('PrimaryDnsServer\x0c(.*?)\x0c', raw_config).group()[18:-1]
             config_dict['BackupDNSServer'] = re.search('BackupDnsServer\x0c(.*?)(\x04|\x0c)', raw_config).group()[16:-1]
         except:
+            pass
+
+        try:
+            config_dict['CountryCode'] = re.search('CountryCode\x0c(.*?)\x0c', raw_config).group()[12:-1]
+            config_dict['HWID'] = re.search('Hwid\x0c(.*?)\x0c', raw_config).group()[5:-1]
+        except Exception as e:
             pass
 
     else:
@@ -147,30 +162,42 @@ def parse_config(raw_config, ver):
         config_dict['Group'] = re.search('GROUP\x0c(.*?)\x0c', raw_config).group()[7:-1]
         config_dict['ConnectDelay'] = unpack("<i", re.search('DELAY(.*?)\x0c', raw_config).group()[6:-1])[0]
         config_dict['OfflineKeyLog'] = str(re.search('OFFLINE_KEYLOGGING(.*?)\x0c', raw_config).group()[19:-1].encode('hex'))
+
     return config_dict
+
 
 # This gets the encoded config from a stub
 def get_codedconfig(data):
     coded_config = None
-    pe = pefile.PE(data=data)
-    for entry in pe.DIRECTORY_ENTRY_RESOURCE.entries:
-        if str(entry.name) == "RC_DATA" or "RCData":
-            new_dirs = entry.directory
-            for res in new_dirs.entries:
-                data_rva = res.directory.entries[0].data.struct.OffsetToData
-                size = res.directory.entries[0].data.struct.Size
-                data = pe.get_memory_mapped_image()[data_rva:data_rva+size]
-                coded_config = data
-                # Icons can get in the way. 
-                if coded_config.startswith('\x28\x00\x00'):
-                    break
-                return coded_config
+
+    try:
+        pe = pe = pype32.PE(data=data)
+        m = pe.ntHeaders.optionalHeader.dataDirectory[14].info
+        for i in m.directory.resources.info:
+            if i['name'] == "Data.bin":
+                coded_config = i["data"]
+    except:
+        pe = pefile.PE(data=data)
+        for entry in pe.DIRECTORY_ENTRY_RESOURCE.entries:
+            if str(entry.name) == "RC_DATA" or "RCData":
+                new_dirs = entry.directory
+                for res in new_dirs.entries:
+                    data_rva = res.directory.entries[0].data.struct.OffsetToData
+                    size = res.directory.entries[0].data.struct.Size
+                    data = pe.get_memory_mapped_image()[data_rva:data_rva+size]
+                    coded_config = data
+                    # Icons can get in the way.
+                    if coded_config.startswith('\x28\x00\x00'):
+                        break
+    return coded_config
+
 
 def decrypt_des(key, data):
     iv = key
     cipher = DES.new(key, DES.MODE_CBC, iv)
     return cipher.decrypt(data)
-    
+
+
 def decrypt_aes(key, iv, data):
     mode = AES.MODE_CBC
     cipher = AES.new(key, mode, IV=iv)
