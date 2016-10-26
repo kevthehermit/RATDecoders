@@ -12,41 +12,42 @@ from androguard.core.bytecodes import dvm
 def _log(s):
     print(s)
 
-#------------------------------------------------------------------
-# extract_config : This extracts the C&C information from Dendroid.
-#------------------------------------------------------------------
+#-------------------------------------------------------------------
+# extract_config : This extracts the C&C information from SandroRat.
+#-------------------------------------------------------------------
 def extract_config(apkfile):
     a = apk.APK(apkfile)
     d = dvm.DalvikVMFormat(a.get_dex())
     for cls in d.get_classes():
-        if 'Lcom/connect/MyService;'.lower() in cls.get_name().lower():
-            c2Found = False
-            portFound = False
+        if 'Lnet/droidjack/server/MainActivity;'.lower() in cls.get_name().lower():
+            for method in cls.get_methods():
+                if method.name == 'onCreate':
+                    for inst in method.get_instructions():
+                        if inst.get_name() == 'sget-byte':
+                            string = inst.get_output().split(',')[-1].strip(" '")
+                            string, szMet = string.split("->")
+                            break
+    for cls in d.get_classes():
+        if string.lower() in cls.get_name().lower():
             c2 = ""
             port = ""
-            string = None
+            szTemp = None
             for method in cls.get_methods():
-                if method.name == '<init>':
+                if method.name == '<clinit>':
                     for inst in method.get_instructions():
                         if inst.get_name() == 'const-string':
-                            string = inst.get_output().split(',')[-1].strip(" '")
-                            if "=" in string:
-                                szTemp = (urllib.unquote(base64.b64decode(string)))
-                            else:
-                                try:
-                                    szTemp = (urllib.unquote(base64.b64decode(string)))
-                                except:
-                                    szTemp = string
-                        if inst.get_name() == 'iput-object':
-                            if "encodedURL" in inst.get_output():
-                                szURL = szTemp
-                            if "backupURL" in inst.get_output():
-                                szBackupURL = szTemp
-                            if "encodedPassword" in inst.get_output():
-                                szPassword = szTemp
+                            c2 = inst.get_output().split(',')[-1].strip(" '")
+                        if inst.get_name() == 'const/16':
+                            port = inst.get_output().split(',')[-1].strip(" '")
+                        if c2 and port:
+                            break
+            server = ""
+            if port:
+                server = "{0}:{1}".format(c2, str(port))
+            else:
+                server = c2
             _log('Extracting from %s' % apkfile)
-            _log('C&C: [ %s ]' % szURL)
-            _log('password : [ %s ]\n' % szPassword)
+            _log('C&C: [ %s ]\n' % server)
 
 #-------------------------------------------------------------
 # check_apk_file : Shitty Check whether file is a apk file.
@@ -75,13 +76,13 @@ def logo():
     print ' \/\_____\  \ \_\ \_\  \ \_\    \ \_\  \/\_____\     \ \_____\  \ \_\ \_\  \ \_____\  \ \_\ \_\  \ \_____\  \ \_\\\\"\_\\'
     print '  \/_____/   \/_/\/_/   \/_/     \/_/   \/_____/      \/_____/   \/_/ /_/   \/_____/   \/_/\/_/   \/_____/   \/_/ \/_/'
     print '\n'
-    print " Find the C&C for this Dendroid mallie!"
+    print " Find the C&C for this SandroRat mallie!"
     print " Jacob Soo"
     print " Copyright (c) 2016\n"
                                                                                                                       
 
 if __name__ == "__main__":
-    description='C&C Extraction tool for Dendroid'
+    description='C&C Extraction tool for SandroRat'
     parser = argparse.ArgumentParser(description=description,
                                      epilog='--file and --directory are mutually exclusive')
     group = parser.add_mutually_exclusive_group(required=True)

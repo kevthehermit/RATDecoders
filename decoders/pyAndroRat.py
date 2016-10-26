@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import zipfile, sys, os
-import base64, urllib
+import base64
 import argparse
 from sys import argv
 from androguard.core.bytecodes import apk
@@ -12,45 +12,43 @@ from androguard.core.bytecodes import dvm
 def _log(s):
     print(s)
 
-#------------------------------------------------------------------
-# extract_config : This extracts the C&C information from Dendroid.
-#------------------------------------------------------------------
+# This extracts the C&C information from Androrat
 def extract_config(apkfile):
     a = apk.APK(apkfile)
     d = dvm.DalvikVMFormat(a.get_dex())
     for cls in d.get_classes():
-        if 'Lcom/connect/MyService;'.lower() in cls.get_name().lower():
+        if 'Lmy/app/client/ProcessCommand;'.lower() in cls.get_name().lower():
             c2Found = False
             portFound = False
             c2 = ""
             port = ""
             string = None
             for method in cls.get_methods():
-                if method.name == '<init>':
+                if method.name == 'loadPreferences':
                     for inst in method.get_instructions():
                         if inst.get_name() == 'const-string':
                             string = inst.get_output().split(',')[-1].strip(" '")
-                            if "=" in string:
-                                szTemp = (urllib.unquote(base64.b64decode(string)))
-                            else:
-                                try:
-                                    szTemp = (urllib.unquote(base64.b64decode(string)))
-                                except:
-                                    szTemp = string
-                        if inst.get_name() == 'iput-object':
-                            if "encodedURL" in inst.get_output():
-                                szURL = szTemp
-                            if "backupURL" in inst.get_output():
-                                szBackupURL = szTemp
-                            if "encodedPassword" in inst.get_output():
-                                szPassword = szTemp
+                            if c2Found == True:
+                                c2 = string
+                                c2Found = False
+                            if string == 'ip':
+                                c2Found = True
+                            if string == 'port':
+                                portFound = True
+                        if inst.get_name() == 'const/16':
+                            if portFound == True:
+                                string = inst.get_output().split(',')[-1].strip(" '")
+                                port = string
+                        if c2 and port:
+                            break
+            server = ""
+            if port:
+                server = "{0}:{1}".format(c2, str(port))
+            else:
+                server = c2
             _log('Extracting from %s' % apkfile)
-            _log('C&C: [ %s ]' % szURL)
-            _log('password : [ %s ]\n' % szPassword)
+            _log('C&C: [ %s ]\n' % server)
 
-#-------------------------------------------------------------
-# check_apk_file : Shitty Check whether file is a apk file.
-#-------------------------------------------------------------
 def check_apk_file(apk_file):
     bJar = False
     try:
@@ -64,9 +62,6 @@ def check_apk_file(apk_file):
     except:
         return bJar
 
-#-------------------------------------------------------------
-# logo : Ascii Logos like the 90s. :P
-#-------------------------------------------------------------
 def logo():
     print '\n'
     print ' ______     __  __     __     ______   ______        ______     ______     ______     __  __     ______     __   __   '
@@ -75,13 +70,13 @@ def logo():
     print ' \/\_____\  \ \_\ \_\  \ \_\    \ \_\  \/\_____\     \ \_____\  \ \_\ \_\  \ \_____\  \ \_\ \_\  \ \_____\  \ \_\\\\"\_\\'
     print '  \/_____/   \/_/\/_/   \/_/     \/_/   \/_____/      \/_____/   \/_/ /_/   \/_____/   \/_/\/_/   \/_____/   \/_/ \/_/'
     print '\n'
-    print " Find the C&C for this Dendroid mallie!"
+    print " Find the C&C for this Androrat mallie!"
     print " Jacob Soo"
     print " Copyright (c) 2016\n"
                                                                                                                       
 
 if __name__ == "__main__":
-    description='C&C Extraction tool for Dendroid'
+    description='C&C Extraction tool for Androrat.'
     parser = argparse.ArgumentParser(description=description,
                                      epilog='--file and --directory are mutually exclusive')
     group = parser.add_mutually_exclusive_group(required=True)

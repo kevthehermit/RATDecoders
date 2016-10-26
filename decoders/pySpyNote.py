@@ -13,15 +13,13 @@ def _log(s):
     print(s)
 
 #------------------------------------------------------------------
-# extract_config : This extracts the C&C information from Dendroid.
+# extract_config : This extracts the C&C information from SpyNote.
 #------------------------------------------------------------------
 def extract_config(apkfile):
     a = apk.APK(apkfile)
     d = dvm.DalvikVMFormat(a.get_dex())
     for cls in d.get_classes():
-        if 'Lcom/connect/MyService;'.lower() in cls.get_name().lower():
-            c2Found = False
-            portFound = False
+        if 'dell/scream/application/MainActivity;'.lower() in cls.get_name().lower():
             c2 = ""
             port = ""
             string = None
@@ -30,23 +28,20 @@ def extract_config(apkfile):
                     for inst in method.get_instructions():
                         if inst.get_name() == 'const-string':
                             string = inst.get_output().split(',')[-1].strip(" '")
-                            if "=" in string:
-                                szTemp = (urllib.unquote(base64.b64decode(string)))
-                            else:
-                                try:
-                                    szTemp = (urllib.unquote(base64.b64decode(string)))
-                                except:
-                                    szTemp = string
                         if inst.get_name() == 'iput-object':
-                            if "encodedURL" in inst.get_output():
-                                szURL = szTemp
-                            if "backupURL" in inst.get_output():
-                                szBackupURL = szTemp
-                            if "encodedPassword" in inst.get_output():
-                                szPassword = szTemp
+                            if "SERVER_IP" in inst.get_output():
+                                c2 = string
+                            if "PORT" in inst.get_output():
+                                port = string
+                        if c2 and port:
+                            break
+            server = ""
+            if port:
+                server = "{0}:{1}".format(c2, str(port))
+            else:
+                server = c2
             _log('Extracting from %s' % apkfile)
-            _log('C&C: [ %s ]' % szURL)
-            _log('password : [ %s ]\n' % szPassword)
+            _log('C&C: [ %s ]\n' % server)
 
 #-------------------------------------------------------------
 # check_apk_file : Shitty Check whether file is a apk file.
@@ -75,13 +70,13 @@ def logo():
     print ' \/\_____\  \ \_\ \_\  \ \_\    \ \_\  \/\_____\     \ \_____\  \ \_\ \_\  \ \_____\  \ \_\ \_\  \ \_____\  \ \_\\\\"\_\\'
     print '  \/_____/   \/_/\/_/   \/_/     \/_/   \/_____/      \/_____/   \/_/ /_/   \/_____/   \/_/\/_/   \/_____/   \/_/ \/_/'
     print '\n'
-    print " Find the C&C for this Dendroid mallie!"
+    print " Find the C&C for this Spynote mallie!"
     print " Jacob Soo"
     print " Copyright (c) 2016\n"
                                                                                                                       
 
 if __name__ == "__main__":
-    description='C&C Extraction tool for Dendroid'
+    description='C&C Extraction tool for Spynote'
     parser = argparse.ArgumentParser(description=description,
                                      epilog='--file and --directory are mutually exclusive')
     group = parser.add_mutually_exclusive_group(required=True)
