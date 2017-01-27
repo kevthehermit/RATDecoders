@@ -12,7 +12,7 @@ rule njRat
 		$s1 = {7C 00 27 00 7C 00 27 00 7C} // |'|'|
 		$s2 = "netsh firewall add allowedprogram" wide
 		$s3 = "Software\\Microsoft\\Windows\\CurrentVersion\\Run" wide
-		$s4 = "yyyy-MM-dd" wide
+		$s4 = "yy-MM-dd" wide
 
 		$v1 = "cmd.exe /k ping 0 & del" wide
 		$v2 = "cmd.exe /c ping 127.0.0.1 & del" wide
