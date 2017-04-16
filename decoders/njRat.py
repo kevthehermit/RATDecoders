@@ -28,86 +28,136 @@ def get_strings(pe, dir_type):
 #Turn the strings in to a python dict
 def parse_config(string_list):
     config_dict = {}
-    if string_list[5] == '0.3.5':
-        config_dict["Campaign ID"] = base64.b64decode(string_list[4])
-        config_dict["version"] = string_list[5]
-        config_dict["Install Name"] = string_list[1]
-        config_dict["Install Dir"] = string_list[2]
-        config_dict["Registry Value"] = string_list[3]
-        config_dict["Domain"] = string_list[7]
-        config_dict["Port"] = string_list[8]
-        config_dict["Network Separator"] = string_list[9]
-        config_dict["Install Flag"] = string_list[6]
-        
-    elif string_list[6] == '0.3.6':
-        config_dict["Campaign ID"] = base64.b64decode(string_list[5])
-        config_dict["version"] = string_list[6]
-        config_dict["Install Name"] = string_list[2]
-        config_dict["Install Dir"] = string_list[3]
-        config_dict["Registry Value"] = string_list[4]
-        config_dict["Domain"] = string_list[8]
-        config_dict["Port"] = string_list[9]
-        config_dict["Network Separator"] = string_list[10]
-        config_dict["Install Flag"] = string_list[11]
-        
-    elif  string_list[3] == '0.4.1a':
-        config_dict["Campaign ID"] = base64.b64decode(string_list[2])
-        config_dict["version"] = string_list[3]
-        config_dict["Install Name"] = string_list[5]
-        config_dict["Install Dir"] = string_list[6]
-        config_dict["Registry Value"] = string_list[7]
-        config_dict["Domain"] = string_list[8]
-        config_dict["Port"] = string_list[9]
-        config_dict["Network Separator"] = string_list[10]
-        config_dict["Install Flag"] = string_list[11]
+    if "|'|'|" in string_list:
+        config_dict["species"] = 'njrat'
+        if string_list[5] == '0.3.5':
+            config_dict["Campaign ID"] = base64.b64decode(string_list[4])
+            config_dict["version"] = string_list[5]
+            config_dict["Install Name"] = string_list[1]
+            config_dict["Install Dir"] = string_list[2]
+            config_dict["Registry Value"] = string_list[3]
+            config_dict["Domain"] = string_list[7]
+            config_dict["Port"] = string_list[8]
+            config_dict["Network Separator"] = string_list[9]
+            config_dict["Install Flag"] = string_list[6]
+            
+        elif string_list[6] == '0.3.6':
+            config_dict["Campaign ID"] = base64.b64decode(string_list[5])
+            config_dict["version"] = string_list[6]
+            config_dict["Install Name"] = string_list[2]
+            config_dict["Install Dir"] = string_list[3]
+            config_dict["Registry Value"] = string_list[4]
+            config_dict["Domain"] = string_list[8]
+            config_dict["Port"] = string_list[9]
+            config_dict["Network Separator"] = string_list[10]
+            config_dict["Install Flag"] = string_list[11]
+            
+        elif  string_list[3] == '0.4.1a':
+            config_dict["Campaign ID"] = base64.b64decode(string_list[2])
+            config_dict["version"] = string_list[3]
+            config_dict["Install Name"] = string_list[5]
+            config_dict["Install Dir"] = string_list[6]
+            config_dict["Registry Value"] = string_list[7]
+            config_dict["Domain"] = string_list[8]
+            config_dict["Port"] = string_list[9]
+            config_dict["Network Separator"] = string_list[10]
+            config_dict["Install Flag"] = string_list[11]
 
-        
-    elif  string_list[2] == '0.5.0E':
-        config_dict["Campaign ID"] = base64.b64decode(string_list[1])
-        config_dict["version"] = string_list[2]
-        config_dict["Install Name"] = string_list[4]
-        config_dict["Install Dir"] = string_list[5]
-        config_dict["Registry Value"] = string_list[6]
-        config_dict["Domain"] = string_list[7]
-        config_dict["Port"] = string_list[8]
-        config_dict["Network Separator"] = string_list[10]
-        config_dict["Install Flag"] = string_list[9]
+            
+        elif  string_list[2] == '0.5.0E':
+            config_dict["Campaign ID"] = base64.b64decode(string_list[1])
+            config_dict["version"] = string_list[2]
+            config_dict["Install Name"] = string_list[4]
+            config_dict["Install Dir"] = string_list[5]
+            config_dict["Registry Value"] = string_list[6]
+            config_dict["Domain"] = string_list[7]
+            config_dict["Port"] = string_list[8]
+            config_dict["Network Separator"] = string_list[10]
+            config_dict["Install Flag"] = string_list[9]
 
-        
-    elif  string_list[2] == '0.6.4':
-        config_dict["Campaign ID"] = base64.b64decode(string_list[1])
-        config_dict["version"] = string_list[2]
-        config_dict["Install Name"] = string_list[3]
-        config_dict["Install Dir"] = string_list[4]
-        config_dict["Registry Value"] = string_list[5]
-        config_dict["Domain"] = string_list[6]
-        config_dict["Port"] = string_list[7]
-        config_dict["Network Separator"] = string_list[8]
-        config_dict["Install Flag"] = string_list[9]
-        
-    elif string_list[2] == '0.7.1':
-        config_dict["Campaign ID"] = base64.b64decode(string_list[1])
-        config_dict["version"] = string_list[2]
-        config_dict["Mutex"] = string_list[3]
-        config_dict["Install Name"] = string_list[4]
-        config_dict["Install Dir"] = string_list[5]
-        config_dict["Registry Value"] = string_list[6]
-        config_dict["Domain"] = string_list[7]
-        config_dict["Port"] = string_list[8]
-        config_dict["Network Separator"] = string_list[10]
-        config_dict["Install Flag"] = string_list[9]
-        config_dict["Author"] = string_list[12]
-        
-    elif string_list[2] == '0.7d':
-        config_dict["Campaign ID"] = base64.b64decode(string_list[1])
-        config_dict["version"] = string_list[2]
-        config_dict["Install Name"] = string_list[3]
-        config_dict["Install Dir"] = string_list[4]
-        config_dict["Registry Value"] = string_list[5]
-        config_dict["Domain"] = string_list[6]
-        config_dict["Port"] = string_list[7]
-        config_dict["Network Separator"] = string_list[8]
-        config_dict["Install Flag"] = string_list[9]
+            
+        elif  string_list[2] == '0.6.4':
+            config_dict["Campaign ID"] = base64.b64decode(string_list[1])
+            config_dict["version"] = string_list[2]
+            config_dict["Install Name"] = string_list[3]
+            config_dict["Install Dir"] = string_list[4]
+            config_dict["Registry Value"] = string_list[5]
+            config_dict["Domain"] = string_list[6]
+            config_dict["Port"] = string_list[7]
+            config_dict["Network Separator"] = string_list[8]
+            config_dict["Install Flag"] = string_list[9]
+            
+        elif string_list[2] == '0.7.1':
+            config_dict["Campaign ID"] = base64.b64decode(string_list[1])
+            config_dict["version"] = string_list[2]
+            config_dict["Mutex"] = string_list[3]
+            config_dict["Install Name"] = string_list[4]
+            config_dict["Install Dir"] = string_list[5]
+            config_dict["Registry Value"] = string_list[6]
+            config_dict["Domain"] = string_list[7]
+            config_dict["Port"] = string_list[8]
+            config_dict["Network Separator"] = string_list[10]
+            config_dict["Install Flag"] = string_list[9]
+            config_dict["Author"] = string_list[12]
+            
+        elif string_list[2] == '0.7d':
+            config_dict["Campaign ID"] = base64.b64decode(string_list[1])
+            config_dict["version"] = string_list[2]
+            config_dict["Install Name"] = string_list[3]
+            config_dict["Install Dir"] = string_list[4]
+            config_dict["Registry Value"] = string_list[5]
+            config_dict["Domain"] = string_list[6]
+            config_dict["Port"] = string_list[7]
+            config_dict["Network Separator"] = string_list[8]
+            config_dict["Install Flag"] = string_list[9]
+
+        elif string_list[2] == '0.8d':
+            config_dict["Campaign ID"] = base64.b64decode(string_list[1])
+            config_dict["version"] = string_list[2]
+            config_dict["Install Name"] = string_list[4]
+            config_dict["Install Dir"] = string_list[5]
+            config_dict["Registry Value"] = string_list[6]
+            config_dict["Domain"] = string_list[7]
+            config_dict["Port"] = string_list[8]
+            config_dict["Network Separator"] = string_list[9]
+            config_dict["Install Flag"] = string_list[10]
+
+    elif "|Kiler|" in string_list:
+        config_dict["species"] = 'kiler'
+        if string_list[4] == '4.0.1':
+            config_dict["Campaign ID"] = base64.b64decode(string_list[3])
+            config_dict["version"] = string_list[4]
+            config_dict["Install Name"] = string_list[6]
+            config_dict["Install Dir"] = string_list[7]
+            config_dict["Registry Value"] = string_list[8]
+            config_dict["Domain"] = string_list[9]
+            config_dict["Port"] = string_list[10]
+            config_dict["Network Separator"] = string_list[13]
+            config_dict["Install Flag"] = string_list[11]
+
+        elif string_list[4] == '8.0.9': 
+            config_dict["Campaign ID"] = base64.b64decode(string_list[3])
+            config_dict["version"] = string_list[4]
+            config_dict["Install Name"] = string_list[6]
+            config_dict["Install Dir"] = string_list[7]
+            config_dict["Registry Value"] = string_list[9]
+            config_dict["Domain"] = string_list[10]
+            config_dict["Port"] = string_list[11]
+            config_dict["Network Separator"] = string_list[17]
+            config_dict["Install Flag"] = string_list[13]
+
+    elif "|Coringa|" in string_list:
+        config_dict["species"] = 'coringa'
+        if string_list[26] == '0.3':
+            config_dict["Campaign ID"] = base64.b64decode(string_list[25])
+            config_dict["version"] = string_list[26]
+            config_dict["Install Name"] = string_list[28]
+            config_dict["Install Dir"] = string_list[29]
+            config_dict["Registry Value"] = string_list[30]
+            config_dict["Domain"] = string_list[31]
+            config_dict["Port"] = string_list[32]
+            config_dict["Network Separator"] = string_list[48]
+            config_dict["Install Flag"] = string_list[33]
 
     # Try a brute force
     if "|'|'|" in string_list and len(config_dict) == 0:
