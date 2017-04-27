@@ -53,7 +53,7 @@ def decode_onboard_config(data):
 	return data[8:length+8]
 
 def config(data):
-	xml = decode_onboard_config(f)
+	xml = decode_onboard_config(data)
 	root = ET.fromstring(xml)
 	raw_config = {}
 	for child in root:
