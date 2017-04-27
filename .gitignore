@@ -61,6 +61,8 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 
+# Vim
+*.sw*
 
 # PyCharms
 .idea/
