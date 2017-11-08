@@ -14,7 +14,7 @@ __description__ = 'RAT Config Extractor'
 __author__ = 'Kevin Breen, https://techanarchy.net, https://malwareconfig.com'
 __version__ = '1.0'
 __date__ = '2016/04'
-rule_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'yaraRules', 'yaraRules.yar')
+rule_file = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'yaraRules', 'yaraRules.yar')
 
 
 def unpack(raw_data):
@@ -76,7 +76,7 @@ def run(raw_data):
             return
 
     if not family:
-        print "    [!] Unabel to match your sample to a decoder"
+        print "    [!] Unable to match your sample to a decoder"
         return
 
     # Import decoder
@@ -158,4 +158,5 @@ if __name__ == "__main__":
         file_data = open(args[0], 'rb').read()
         print "[+] Reading {0}".format(args[0])
         config_data = run(file_data)
-        print_output(config_data, options.output)
+        if config_data:
+            print_output(config_data, options.output)
