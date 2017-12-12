@@ -17,6 +17,8 @@ rule opcodes {
     $opcodes02 = { 8A 5C 06 08 88 9C 05 F4 FE FF FF 40 3D 00 01 00 00 75 ED }
     $opcodes03 = { 53 81 EC ?? ?? 00 00 C7 ?? ?? ?? ?? 00 00 00 C7 ?? ?? ?? ?? ?? ?? 00 8D ?? ?? ?? FF FF 89 ?? ?? E8 ?? ?? ?? 00 }
     $opcodes04 = { E8 ?? ?? 00 00 C7 44 ?? ?? ?? ?? 00 00 C7 44 ?? ?? ?? ?? ?? 00 89 ?? ?? E8 ?? ?? ?? 00 }
+    $opcodes05 = { 53 81 EC ?? ?? 00 00 ?? ?? ?? ?? C7 ?? ?? ?? ?? 00 00 00 C7 ?? ?? ?? ?? ?? ?? 00 8? ?? ?? E8 ?? ?? ?? 00 }
+    $opcodes06 = { E8 ?? ?? 00 00 ?? ?? ?? C7 44 ?? ?? ?? ?? 00 00 C7 44 ?? ?? ?? ?? ?? 00 E8 ?? ?? ?? 00 }
 
   condition:
     2 of them
@@ -91,6 +93,8 @@ def parse_config(config_list):
         proxy_type = ["socks4", "socks4a", "socks5", "http"]
         for server in config_list[1].rstrip(';').split(';'):
             p = server.split(':')
+            if len(p) < 2:
+                return({})
             i = int(p[2])
             proxy_list.append('{0}:{1}:{2}'.format(proxy_type[i], p[0], p[1]))
         config_dict['Proxy Server'] = proxy_list
@@ -121,8 +125,13 @@ def config(raw_data):
 
     data = yara_scan(raw_data, '$opcodes03')
 
-    key_va = struct.unpack('i', data[0][19:23])[0]
+    try:
+        key_va = struct.unpack('i', data[0][19:23])[0]
+    except:
+        data = yara_scan(raw_data, '$opcodes05')
+        key_va = struct.unpack('<i', data[0][23:27])[0]
     key_hex = pe_data(pe, key_va, 16)
+
 
     data_2 = yara_scan(raw_data, '$opcodes04')
 
@@ -137,5 +146,20 @@ def config(raw_data):
         config_list.append(dec)
 
     config_dict = parse_config(config_list)
+    #Check for new version
+    if config_dict == {}:
+        data_2 = yara_scan(raw_data, '$opcodes06')
+        config_list = []
+        for section in data_2:
+            length = struct.unpack('i', section[12:16])[0]
+            data_va = struct.unpack('i', section[20:24])[0]
+            sec_data = pe_data(pe, data_va, length)
+            dec = decrypt_rc4(key_hex, sec_data)
+            if '\x00' in dec:
+                dec = dec[:dec.index('\x00')]
+            config_list.append(dec)
+
+        config_dict = parse_config(config_list)
+        
 
     return config_dict
