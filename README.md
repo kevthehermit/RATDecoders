@@ -68,7 +68,15 @@ This list is a complete listing of all the Python Modules
 - pefile
 - pycrypto
 - pype32
-- Yara
+- Yara with dotnet support
+
+
+yara-python with dotnet support
+
+git clone --recursive https://github.com/VirusTotal/yara-python
+python setup.py build --enable-magic --enable-dotnet
+sudo python setup.py install
+
 
 ### ToDo
 
