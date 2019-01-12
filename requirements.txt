@@ -1,0 +1,3 @@
+https://github.com/fireeye/flare-floss.git
+pefile
+javaobj-py3
