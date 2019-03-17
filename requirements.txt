@@ -1,3 +1,4 @@
-https://github.com/fireeye/flare-floss.git
 pefile
+yara-python
+pbkdf2
 javaobj-py3

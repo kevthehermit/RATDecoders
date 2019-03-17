@@ -74,8 +74,8 @@ This list is a complete listing of all the Python Modules
 yara-python with dotnet support
 
 git clone --recursive https://github.com/VirusTotal/yara-python
-python setup.py build --enable-magic --enable-dotnet
-sudo python setup.py install
+python3 setup.py build --enable-magic --enable-dotnet
+sudo python3 setup.py install
 
 
 ### ToDo
