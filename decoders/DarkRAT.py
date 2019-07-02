@@ -2,7 +2,7 @@ import string
 
 
 def string_print(line):
-    return filter(lambda x: x in string.printable, line)
+    return [x for x in line if x in string.printable]
 
 
 def config(data):

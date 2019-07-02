@@ -33,7 +33,7 @@ def decrypt_string(key_string, coded):
     
 def parse_config(string_list):
     config_dict = {}
-    print string_list
+    print(string_list)
     config_dict["Domain"] = string_list[1]
     config_dict["Port"] = string_list[2]
     config_dict["Username"] = string_list[3]

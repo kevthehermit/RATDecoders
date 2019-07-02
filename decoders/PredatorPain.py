@@ -55,7 +55,7 @@ def get_strings(pe, dir_type):
     string_list = []
     m = pe.ntHeaders.optionalHeader.dataDirectory[14].info
     for s in m.netMetaDataStreams[dir_type].info:
-        for offset, value in s.iteritems():
+        for offset, value in s.items():
             string_list.append(value)
             #print counter, value
         counter += 1
@@ -65,15 +65,15 @@ def get_strings(pe, dir_type):
 def get_version(string_list):
     # Pred v12
     if 'Predator Pain v12 - Server Ran - [' in string_list:
-        print "    [-] Found Predator Pain v12"
+        print("    [-] Found Predator Pain v12")
         return 'v12'
     # Pred v13
     elif 'Predator Pain v13 - Server Ran - [' in string_list:
-        print "    [-] Found Predator Pain v13"
+        print("    [-] Found Predator Pain v13")
         return 'v13'
     # Pred v14
     elif 'EncryptedCredentials' in string_list:
-        print "    [-] Found Predator Pain v14"
+        print("    [-] Found Predator Pain v14")
         return 'v14'
     else:
         return

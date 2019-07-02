@@ -9,9 +9,9 @@ def get_config(data):
           rt_string_idx = [
           entry.id for entry in 
           pe.DIRECTORY_ENTRY_RESOURCE.entries].index(pefile.RESOURCE_TYPE['RT_RCDATA'])
-        except ValueError, e:
+        except ValueError as e:
             return
-        except AttributeError, e:
+        except AttributeError as e:
             return
         rt_string_directory = pe.DIRECTORY_ENTRY_RESOURCE.entries[rt_string_idx]
         for entry in rt_string_directory.directory.entries:
@@ -30,7 +30,7 @@ def xor_decode(data):
     encoded = bytearray(data)
     for i in range(len(encoded)):
         encoded[i] ^= key
-    return filter(lambda x: x in string.printable, str(encoded))
+    return [x for x in str(encoded) if x in string.printable]
 
 
 def parse_config(raw_config):

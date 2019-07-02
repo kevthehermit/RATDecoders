@@ -1,6 +1,6 @@
 #!/usr/bin/python
 import zipfile, sys, os
-import base64, urllib
+import base64, urllib.request, urllib.parse, urllib.error
 import argparse
 from sys import argv
 from androguard.core.bytecodes import apk
@@ -31,10 +31,10 @@ def extract_config(apkfile):
                         if inst.get_name() == 'const-string':
                             string = inst.get_output().split(',')[-1].strip(" '")
                             if "=" in string:
-                                szTemp = (urllib.unquote(base64.b64decode(string)))
+                                szTemp = (urllib.parse.unquote(base64.b64decode(string)))
                             else:
                                 try:
-                                    szTemp = (urllib.unquote(base64.b64decode(string)))
+                                    szTemp = (urllib.parse.unquote(base64.b64decode(string)))
                                 except:
                                     szTemp = string
                         if inst.get_name() == 'iput-object':
@@ -68,16 +68,16 @@ def check_apk_file(apk_file):
 # logo : Ascii Logos like the 90s. :P
 #-------------------------------------------------------------
 def logo():
-    print '\n'
-    print ' ______     __  __     __     ______   ______        ______     ______     ______     __  __     ______     __   __   '
-    print '/\  ___\   /\ \_\ \   /\ \   /\__  _\ /\  ___\      /\  == \   /\  == \   /\  __ \   /\ \/ /    /\  ___\   /\ "-.\ \  '
-    print '\ \___  \  \ \  __ \  \ \ \  \/_/\ \/ \ \___  \     \ \  __<   \ \  __<   \ \ \/\ \  \ \  _"-.  \ \  __\   \ \ \-.  \ '
-    print ' \/\_____\  \ \_\ \_\  \ \_\    \ \_\  \/\_____\     \ \_____\  \ \_\ \_\  \ \_____\  \ \_\ \_\  \ \_____\  \ \_\\\\"\_\\'
-    print '  \/_____/   \/_/\/_/   \/_/     \/_/   \/_____/      \/_____/   \/_/ /_/   \/_____/   \/_/\/_/   \/_____/   \/_/ \/_/'
-    print '\n'
-    print " Find the C&C for this Dendroid mallie!"
-    print " Jacob Soo"
-    print " Copyright (c) 2016\n"
+    print('\n')
+    print(' ______     __  __     __     ______   ______        ______     ______     ______     __  __     ______     __   __   ')
+    print('/\  ___\   /\ \_\ \   /\ \   /\__  _\ /\  ___\      /\  == \   /\  == \   /\  __ \   /\ \/ /    /\  ___\   /\ "-.\ \  ')
+    print('\ \___  \  \ \  __ \  \ \ \  \/_/\ \/ \ \___  \     \ \  __<   \ \  __<   \ \ \/\ \  \ \  _"-.  \ \  __\   \ \ \-.  \ ')
+    print(' \/\_____\  \ \_\ \_\  \ \_\    \ \_\  \/\_____\     \ \_____\  \ \_\ \_\  \ \_____\  \ \_\ \_\  \ \_____\  \ \_\\\\"\_\\')
+    print('  \/_____/   \/_/\/_/   \/_/     \/_/   \/_____/      \/_____/   \/_/ /_/   \/_____/   \/_/\/_/   \/_____/   \/_/ \/_/')
+    print('\n')
+    print(" Find the C&C for this Dendroid mallie!")
+    print(" Jacob Soo")
+    print(" Copyright (c) 2016\n")
                                                                                                                       
 
 if __name__ == "__main__":
@@ -106,7 +106,7 @@ if __name__ == "__main__":
         if check_apk_file(Filename[0])==True:
             extract_config(Filename[0])
         else:
-            print("This is not a valid apk file : %s" % Filename[0])
+            print(("This is not a valid apk file : %s" % Filename[0]))
     if Directory is not None and is_dir:
         for root, directories, filenames in os.walk(Directory[0]):
             for filename in filenames: 
@@ -114,4 +114,4 @@ if __name__ == "__main__":
                 if check_apk_file(szFile)==True:
                     extract_config(szFile)
                 else:
-                    print("This is not a valid apk file : %s" % szFile)
+                    print(("This is not a valid apk file : %s" % szFile))

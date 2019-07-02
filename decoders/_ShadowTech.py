@@ -17,7 +17,7 @@ enc_key = 'pSILlzCwXBSrQ1Vb72t6bIXtKRzAHJklNNL94gD8hIi9FwLiiVlr' # Actual key is
 #Helper Functions Go Here
 
 def string_print(line):
-    return filter(lambda x: x in string.printable, line)
+    return [x for x in line if x in string.printable]
 
 def get_config(data):
     config_list = []
@@ -31,7 +31,7 @@ def get_config(data):
 
                 key_slice = ord(enc_key[i+1])#get next Char For Key
                 output += chr(xor(data_slice,key_slice)) # xor Hex and Key Char
-            print output
+            print(output)
         except:
             output = "DecodeError"
         config_list.append(output)

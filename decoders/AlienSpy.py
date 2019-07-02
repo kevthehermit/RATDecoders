@@ -3,7 +3,7 @@ import json
 import string
 import struct
 from zipfile import ZipFile
-from cStringIO import StringIO
+from io import StringIO
 
 #Non Standard Imports
 from Crypto.Cipher import ARC4
@@ -11,13 +11,13 @@ from Crypto.Cipher import ARC4
 def version_a(enckey, coded_jar):
     config_dict = {}
     for key in enckey:
-        print "  [!] testing Key {0}".format(key)
+        print("  [!] testing Key {0}".format(key))
         decoded_data = decrypt_RC4(key, coded_jar)
         try:
             decoded_jar = ZipFile(StringIO(decoded_data))
             raw_config = decoded_jar.read('org/jsocket/resources/config.json')
             config = json.loads(raw_config)
-            for k, v in config.iteritems():
+            for k, v in config.items():
                 config_dict[k] = v
             return config_dict
         except:
@@ -27,7 +27,7 @@ def version_a(enckey, coded_jar):
 def version_b(enckey, coded_jar):
     config_dict = {}
     for key in enckey:
-        print "  [!] testing Key {0}".format(key)
+        print("  [!] testing Key {0}".format(key))
         decoded_data = decrypt_RC4(key, coded_jar)
         try:
             decoded_jar = ZipFile(StringIO(decoded_data))
@@ -44,13 +44,13 @@ def version_b(enckey, coded_jar):
 def version_c(enckey, coded_jar, rounds=20, P=0xB7E15163, Q=0x9E3779B9):
     config_dict = {}
     for key in enckey:
-        print "  [!] testing Key {0}".format(key)
+        print("  [!] testing Key {0}".format(key))
         decoded_data = decrypt_RC6(key, coded_jar, rounds=rounds, P=P, Q=Q)
         try:
             decoded_jar = ZipFile(StringIO(decoded_data))
             raw_config = decoded_jar.read('org/jsocket/resources/config.json')
             config = json.loads(raw_config)
-            for k, v in config.iteritems():
+            for k, v in config.items():
                 config_dict[k] = v
             return config_dict
         except:
@@ -62,7 +62,7 @@ def version_d(enckey, coded_jar):
 
 def string_print(line):
     try:
-        return filter(lambda x: x in string.printable, str(line))
+        return [x for x in str(line) if x in string.printable]
     except:
         return line
 
@@ -96,7 +96,7 @@ def decrypt_RC6(key, encrypted, P, Q, rounds):
         ints = to_int(block)
         ints[0] = (ints[0] - S[T-2])
         ints[2] = (ints[2] - S[T-1])
-        for i in reversed(range(rounds)):
+        for i in reversed(list(range(rounds))):
             r = i+1
 
             # rotate ints
@@ -132,7 +132,7 @@ def decrypt_RC6(key, encrypted, P, Q, rounds):
     A = 0
     B = 0
 
-    for x in xrange(3*T):
+    for x in range(3*T):
         A = S[i] = rol((S[i] + A + B), 3)
         B = L[j] = rol((L[j] + A + B), (A + B))
         i = (i + 1) % T
@@ -153,7 +153,7 @@ def decrypt_RC6(key, encrypted, P, Q, rounds):
 def decrypt_XOR(keys, data):
     for key in keys:
         res = ""
-        for i in xrange(len(data)):
+        for i in range(len(data)):
             res += chr(ord(data[i]) ^ ord(key[i%len(key)]))
         if "SERVER" in res:
             return res

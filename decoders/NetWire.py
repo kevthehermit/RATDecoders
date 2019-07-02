@@ -64,7 +64,7 @@ def parse_options(option_data):
         0x40: "Offline keylogger"
     }
 
-    for k in options.keys():
+    for k in list(options.keys()):
         enabled = (int(option_data) & k) != 0
         out.append({'Option': options[k], 'Value': enabled})
 

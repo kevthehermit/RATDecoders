@@ -13,10 +13,10 @@ import createIOC
 def run(md5, rawData):
 		rawconfig = rawData.split("abccba")
 		if len(rawconfig) > 1:
-			print "Running Abccba"
+			print("Running Abccba")
 			conf = oldversions(rawconfig)
 		else:
-			print "Running pype32"
+			print("Running pype32")
 			pe = pype32.PE(data=rawData) 
 			rawConfig = getStream(pe)
 			conf = parseConfig(rawConfig)
@@ -54,7 +54,7 @@ def parseConfig(rawConfig):
 		that = config[offset+1:offset+int(length)]
 		stringList.append(str(that.replace("\x00", "")))
 		offset += int(length+1)
-	print stringList
+	print(stringList)
 	config = {}
 	for i in range(0,60):
 		config["Domain"] = stringList[37]
@@ -125,7 +125,7 @@ def oldversions(config):
 	elif len(config) == 18:
 		config["Version"] = "V2.0"
 		for i in range(1, len(config)):
-			print i, config[i]
+			print(i, config[i])
 			config["Domain"] = config[1] #
 			config["Port"] = config[2] #
 			config["CampaignID"] = config[3] #

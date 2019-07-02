@@ -1,5 +1,5 @@
 from zipfile import ZipFile
-from cStringIO import StringIO
+from io import StringIO
 import re
 
 
@@ -18,7 +18,7 @@ def parse_config(raw_config):
 
     # Tidy the config
     clean_config = {}
-    for k, v in config_dict.iteritems():
+    for k, v in config_dict.items():
         if k == 'dir':
             clean_config['Install Path'] = v
         if k == 'reg':

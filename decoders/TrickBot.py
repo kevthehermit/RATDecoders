@@ -64,9 +64,9 @@ def config(data):
 			tag = child.tag
 		
 		if tag == 'autorun':
-			val = str(map(lambda x: x.items(), child.getchildren()))
+			val = str([list(x.items()) for x in child.getchildren()])
 		elif tag == 'servs':
-			val = ','.join(map(lambda x: x.text, child.getchildren()))
+			val = ','.join([x.text for x in child.getchildren()])
 		else:
 			val = child.text
 

@@ -21,7 +21,7 @@ BASE_CONFIG = {
 
 def rc4crypt(data, key):
     x = 0
-    box = range(256)
+    box = list(range(256))
     for i in range(256):
         x = (x + box[i] + ord(key[i % len(key)])) % 256
         box[i], box[x] = box[x], box[i]
@@ -51,7 +51,7 @@ def v51_data(data, key):
         key, value = entries.split('=')
         key = key.strip()
         value = value.rstrip()[1:-1]
-        clean_value = filter(lambda x: x in string.printable, value)
+        clean_value = [x for x in value if x in string.printable]
         config[key] = clean_value
 
     return config
@@ -90,9 +90,9 @@ def extract_config(raw_data, key):
     rt_string_directory = pe.DIRECTORY_ENTRY_RESOURCE.entries[rt_string_idx]
     
     entry_names = [str(x.name) for x in rt_string_directory.directory.entries]
-    print('\n'.join(entry_names))
-    print(str(sum([1 for x in raw_config.keys() if x in entry_names])))
-    if 'DCDATA' not in entry_names and (sum([1 for x in raw_config.keys() if x in entry_names]) == 0):
+    print(('\n'.join(entry_names)))
+    print((str(sum([1 for x in list(raw_config.keys()) if x in entry_names]))))
+    if 'DCDATA' not in entry_names and (sum([1 for x in list(raw_config.keys()) if x in entry_names]) == 0):
         off = offset_check(raw_data)
         pe = pefile.PE(data=raw_data[off:])
         rt_string_idx = [
@@ -106,12 +106,12 @@ def extract_config(raw_data, key):
             size = entry.directory.entries[0].data.struct.Size
             data = pe.get_memory_mapped_image()[data_rva:data_rva+size]
             raw_config = v51_data(data, key)
-        elif str(entry.name) in raw_config.keys():
+        elif str(entry.name) in list(raw_config.keys()):
             data_rva = entry.directory.entries[0].data.struct.OffsetToData
             size = entry.directory.entries[0].data.struct.Size
             data = pe.get_memory_mapped_image()[data_rva:data_rva+size]
             dec = rc4crypt(unhexlify(data), key)
-            raw_config[str(entry.name)] = filter(lambda x: x in string.printable, dec)
+            raw_config[str(entry.name)] = [x for x in dec if x in string.printable]
 
     return config_clean(raw_config)
 

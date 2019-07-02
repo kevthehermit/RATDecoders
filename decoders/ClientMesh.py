@@ -3,7 +3,7 @@ from base64 import b64decode
 
 
 def stringPrintable(line):
-    return filter(lambda x: x in string.printable, line)
+    return [x for x in line if x in string.printable]
 
 def first_split(data):
     splits = data.split('\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x7e')

@@ -60,9 +60,9 @@ def get_config(data):
           rt_string_idx = [
           entry.id for entry in 
           pe.DIRECTORY_ENTRY_RESOURCE.entries].index(pefile.RESOURCE_TYPE['RT_RCDATA'])
-        except ValueError, e:
+        except ValueError as e:
             return
-        except AttributeError, e:
+        except AttributeError as e:
             return
         rt_string_directory = pe.DIRECTORY_ENTRY_RESOURCE.entries[rt_string_idx]
         for entry in rt_string_directory.directory.entries:

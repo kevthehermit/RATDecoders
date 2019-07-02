@@ -2,7 +2,7 @@ import string
 import pefile
 
 def string_print(line):
-    return filter(lambda x: x in string.printable, line)
+    return [x for x in line if x in string.printable]
 
 def xor(data):
     key = 0xBC
@@ -19,9 +19,9 @@ def extract_config(raw_data):
             rt_string_idx = [
                 entry.id for entry in pe.DIRECTORY_ENTRY_RESOURCE.entries
             ].index(pefile.RESOURCE_TYPE['RT_RCDATA'])
-        except ValueError, e:
+        except ValueError as e:
             return None
-        except AttributeError, e:
+        except AttributeError as e:
             return None
 
         rt_string_directory = pe.DIRECTORY_ENTRY_RESOURCE.entries[rt_string_idx]
