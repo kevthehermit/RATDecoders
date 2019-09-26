@@ -177,7 +177,7 @@ def get_codedconfig(data):
     coded_config = None
     pe = pefile.PE(data=data)
     for entry in pe.DIRECTORY_ENTRY_RESOURCE.entries:
-        if str(entry.name) == "RC_DATA" or "RCData":
+        if str(entry.name) in ("RC_DATA", "RCData"):
             new_dirs = entry.directory
             for res in new_dirs.entries:
                 data_rva = res.directory.entries[0].data.struct.OffsetToData
