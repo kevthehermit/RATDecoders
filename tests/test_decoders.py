@@ -76,6 +76,11 @@ def test_bluebanana():
     results = decode_sample(sample_path)
     assert results['Password'] == '1111'
 
+def test_blacknix():
+    sample_path = "tests/samples/arcom"
+    results = decode_sample(sample_path)
+    assert results['Install Name'] == 'vlc.exe'
+
 def test_bozok():
     sample_path = "tests/samples/bozok"
     results = decode_sample(sample_path)
@@ -143,6 +148,11 @@ def test_nanocore():
         sample_path = os.path.join("tests/samples/nanocore/", filename)
         results = decode_sample(sample_path)
         assert results['Group'].decode('utf-8') == groupname
+
+def test_netwire():
+    sample_path = "tests/samples/netwire"
+    results = decode_sample(sample_path)
+    assert results['Password'] == b'Password'
 
 def test_njrat():
     njrat_tests = {
