@@ -21,8 +21,9 @@ setup(
         'pefile',
         'pbkdf2',
         'javaobj-py3',
-        'pycrypto'
+        'pycrypto',
+        'pprint'
     ],
-    scripts=['malware_config.py'],
+    scripts=['malconf'],
     package_data={'': ['*.yar', 'README.md, LICENSE']}
 )
