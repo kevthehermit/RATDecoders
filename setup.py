@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='malwareconfig',
-    version='0.0.8',
+    version='0.1.0',
     author='Kevin Breen',
     author_email='thehermit@malwareconfig.com',
     description="Malware Config Extraction",
@@ -17,6 +17,12 @@ setup(
     zip_safe=False,
     packages=find_packages(),
     include_package_data=True,
-    scripts=['malwareconfig.py'],
+    install_requires=[
+        'pefile',
+        'pbkdf2',
+        'javaobj-py3',
+        'pycrypto'
+    ],
+    scripts=['malware_config.py'],
     package_data={'': ['*.yar', 'README.md, LICENSE']}
 )
