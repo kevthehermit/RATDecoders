@@ -1,4 +1,4 @@
 pefile
-yara-python
 pbkdf2
 javaobj-py3
+pycrypto

@@ -65,3 +65,6 @@ target/
 # PyCharms
 .idea/
 .c9/
+
+
+tests/samples
