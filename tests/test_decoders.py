@@ -111,6 +111,11 @@ def test_hawkeye():
     results = decode_sample(sample_path)
     assert results['Key6'] == '587'
 
+def test_hworm():
+    sample_path = "tests/samples/hworm/wsh-vbs"
+    results = decode_sample(sample_path)
+    assert results['host'] == 'domainname.com'
+
 #def test_jbifrost():
 #    sample_path = "tests/samples/jbifrost"
 #    results = decode_sample(sample_path)
@@ -170,11 +175,29 @@ def test_njrat():
         results = decode_sample(sample_path)
         assert results['version'].lower() == version
 
+def test_remcos():
+    remcos_tests = {
+        "111": "1.1 Free",
+        "17pro": "1.7 Pro",
+        "220": "2.2.0 Light",
+        "250": "2.5.0 Light"
+    }
+
+    for filename, version in remcos_tests.items():
+        sample_path = os.path.join("tests/samples/remcos/", filename)
+        results = decode_sample(sample_path)
+        assert results['version'] == version
+
 #def test_sakula():
 #    sample_path = "tests/samples/sakula"
 #    results = decode_sample(sample_path)
 #    print(results)
 #    assert results['Install Name'] == 'Trojan.exe'
+
+def test_saefko():
+    sample_path = "tests/samples/saefko"
+    results = decode_sample(sample_path)
+    assert results['server_pass'] == 'toor'
 
 def test_xtreme():
     sample_path = "tests/samples/xtreme"
