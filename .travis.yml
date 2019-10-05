@@ -17,7 +17,7 @@ before_install:
     - wget https://github.com/VirusTotal/yara/archive/v3.10.0.tar.gz
     - tar -xzvf v3.10.0.tar.gz
     - cd yara-3.10.0/ && ./bootstrap.sh && ./configure --enable-dotnet --enable-magic && make && sudo make install && cd ../
-    - pushd git clone --recursive https://github.com/VirusTotal/yara-python
+    - git clone --recursive https://github.com/VirusTotal/yara-python
     - pip3 install pytest codecov pytest-cov
     - cd yara-python 
     - python setup.py build --enable-magic --enable-dotnet 
