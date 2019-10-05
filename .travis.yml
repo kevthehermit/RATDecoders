@@ -21,7 +21,7 @@ before_install:
     - pip3 install pytest codecov pytest-cov
     - cd yara-python 
     - python setup.py build --enable-magic --enable-dotnet 
-    - python setup.py install
+    - python setup.py install && popd
     
 
 
