@@ -9,7 +9,7 @@ python:
 - 3.6-dev
 before_install:
 - sudo apt-get update -qq
-- sudo apt-get install automake libtool make gcc libmagic-dev -yqq python3-pip
+- sudo apt-get install automake libtool make gcc libmagic-dev -yqq python3-pip unzip
 - wget https://github.com/VirusTotal/yara/archive/v3.10.0.tar.gz
 - tar -xzvf v3.10.0.tar.gz
 - cd yara-3.10.0/ && ./bootstrap.sh && ./configure --enable-dotnet --enable-magic
@@ -19,6 +19,7 @@ before_install:
 - cd yara-python
 - python setup.py build --enable-magic --enable-dotnet
 - python setup.py install && cd ../ && rm -rf yara-python && rm -rf yara-3.10.0/
+- wget https://github.com/kevthehermit/malconf-samples/archive/master.zip && unzip master.zip && mv malconf-samples-master tests/samples/ && rm master.zip
 install:
 - pip install -r requirements.txt
 - pip install -e .
@@ -35,3 +36,4 @@ deploy:
     secure: Uy2IiRInZZngLLOZR0rAEVPmEDHhe/0xLjeROUioARra3DSAtfHnDA6WBrN4QqEelMEcsz5BKqgfN4zhagzJ8Xe3fOCenLWulsHeQCRqfhoJvtAwUhtt21cJ675qopS9DeI21ENxxlyf7KvCGcMnA8W2NlStbvWo+J8eRHjX2OBtulbpnE+AmZfqzEC8Vj32wCKSzzuECnjA+1EZPszotFwuJJiz/TUnX/4ZNh03FKnySnN9ieszpSSfc8rOp0iGaZAm4+K6lePd9ymeTg7C7JIOgoQl1cYKmec+5C4HKS7P8QQ4CZfS6jj0HwmFIa47xS7APFND1F/AczrNZUwIVY7WLvAgWmw/OX6OuJ5zQ3bwGNz27ev/PwZ55FiDU8c8iSiJUAOSvwCqS9TSlXtLjqT9vVhwfWwvjrFXSE+qCrfYzkNittrekqP1QWuowgaIcevKtPLY4i5ClznySPioDek/qhgVy4KCrGtHuV3V1s2Z8/scMLHm0gRCY34TA9AeXLfcnQuL/VPP9LnocCf48bBdqywge+s+bmJVyQoxfrEkYLPGpLXP7eu7SPKJaJzwfYQi+7ULqs/ycCi7GfxHqfqsKbExggQpx/1RVgb7Om5yQ/jrKAf/HCTMl1O8edqjBRlCw5uMx4dxI6cjVMH1dVjfi0qW7OUpK5AAxlHRhoo=
   on:
     branch: master
+  skip_existing: true
