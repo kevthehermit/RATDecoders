@@ -9,7 +9,7 @@ python:
 - 3.6-dev
 before_install:
 - sudo apt-get update -qq
-- sudo apt-get install automake libtool make gcc libmagic-dev -yqq python3-pip unzip
+- sudo apt-get install automake libtool make gcc libmagic-dev -yqq python3-pip unzip upx
 - wget https://github.com/VirusTotal/yara/archive/v3.10.0.tar.gz
 - tar -xzvf v3.10.0.tar.gz
 - cd yara-3.10.0/ && ./bootstrap.sh && ./configure --enable-dotnet --enable-magic
