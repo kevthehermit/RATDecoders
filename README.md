@@ -9,7 +9,11 @@ If you wish to contribute please feel free to fork or email me on decoders@malwa
 
 The write-up is here http://techanarchy.net/2014/04/rat-decoders/
 
-![alt text](https://codecov.io/gh/kevthehermit/RATDecoders/branch/library/graph/badge.svg "Coverage")
+![Coverage](https://codecov.io/gh/kevthehermit/RATDecoders/branch/library/graph/badge.svg "Coverage")
+
+[![Build Status](https://travis-ci.com/kevthehermit/RATDecoders.svg?branch=master)](https://travis-ci.com/kevthehermit/RATDecoders)
+
+
 
 ## Installation
 
