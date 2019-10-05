@@ -199,6 +199,17 @@ def test_saefko():
     results = decode_sample(sample_path)
     assert results['server_pass'] == 'toor'
 
+def test_spynote():
+    spynote_tests = {
+        "spynote5": "5.0",
+        "spynote6.4": "2.1.2.79"
+    }
+
+    for filename, version in spynote_tests.items():
+        sample_path = os.path.join("tests/samples/spynote/", filename)
+        results = decode_sample(sample_path)
+        assert results['Version'] == version
+
 def test_xtreme():
     sample_path = "tests/samples/xtreme"
     results = decode_sample(sample_path)
