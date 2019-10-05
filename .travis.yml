@@ -13,15 +13,16 @@ python:
 
 before_install:
     - sudo apt-get update -qq
-    - sudo apt-get install automake libtool make gcc libmagic-dev -yqq
+    - sudo apt-get install automake libtool make gcc libmagic-dev -yqq python3-pip
     - wget https://github.com/VirusTotal/yara/archive/v3.10.0.tar.gz
     - tar -xzvf v3.10.0.tar.gz
     - cd yara-3.10.0/ && ./bootstrap.sh && ./configure --enable-dotnet --enable-magic && make && sudo make install && cd ../
-    - git clone --recursive https://github.com/VirusTotal/yara-python
-    - cd yara-python 
-    - python3 setup.py build --enable-magic --enable-dotnet 
-    - sudo python3 setup.py install
+    - pushd git clone --recursive https://github.com/VirusTotal/yara-python
     - pip3 install pytest codecov pytest-cov
+    - cd yara-python 
+    - python setup.py build --enable-magic --enable-dotnet 
+    - python setup.py install
+    
 
 
 install:
