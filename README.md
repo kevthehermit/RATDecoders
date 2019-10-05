@@ -1,13 +1,11 @@
 RATDecoders
 ===========
 
-This Repo will hold a collection of Python Scripts that will extract and decode the configuration settings from common rats.
+Malconf is a python3 library that can be used to staticly analyse specific malware families and extract the Configuration data that can be used by 
+Incident Responders during an incident. 
 
-Each of these decoders is running on http://malwareconfig.com and has additional features that are not included in the scripts.
+As a library it can also be installed in to automated malware analysis pipelines. 
 
-If you wish to contribute please feel free to fork or email me on decoders@malwareconfig.com
-
-The write-up is here http://techanarchy.net/2014/04/rat-decoders/
 
 ![Coverage](https://codecov.io/gh/kevthehermit/RATDecoders/branch/library/graph/badge.svg "Coverage")
 
@@ -49,53 +47,51 @@ python3 setup.py install
 ###Current Rats
 Here is a list of the currently supported RATS:
 
-- Adwind
-- Albertino Advanced RAT
-- Arcom
-- BlackNix
-- BlackShades
-- Blue Banana
-- Bozok
-- ClientMesh
-- CyberGate
-- DarkComet
-- drakddoser
-- DarkRat
-- Graeme
-- HawkEye
-- jRat
-- jSpy
-- LostDoor
-- LuxNet
-- njRat
-- Pandora
-- PoisionIvy
-- PredatorPain
-- Punisher
-- SpyGate
-- SmallNet
-- Unrecom
-- Vantom
-- Vertex
-- VirusRat
-- Xena
-- xtreme
+  - LostDoor
+  - Xtreme
+  - AAR
+  - AdWind
+  - Adzok
+  - AlienSpy
+  - Alina
+  - Arcom
+  - BlackNix
+  - BlackShades
+  - BlueBanana
+  - Bozok
+  - ClientMesh
+  - CyberGate
+  - DarkComet
+  - DarkRAT
+  - HawkEye
+  - Hrat
+  - Jbifrost
+  - JRat
+  - LuminosityLink
+  - LuxNet
+  - NanoCore
+  - NetWire
+  - njRat
+  - Plasma
+  - Remcos
+  - Saefko
+  - Sakula
+  - SpyNote
 
 ###Upcoming RATS
 
-- NetWire
-- Gh0st
-- Plasma
-- Any Other Rats i can find.
+- Still migrating old ones!
 
 ###Usage
 
 The decoders now act like a framework with auto family detection. You can still find the original individual decoders in the archive folder. These will not be 
 kept as up to date as the decoders in the framework. 
 
-```malconf.py```
+```malconf```
 
-```malconf.py -l``` This will list all the supported rats
+```malconf -l``` This will list all the supported rats
+
+```malconf /path/to/sample ``` This will automagically detect the family and 
 
 ### Library
 
