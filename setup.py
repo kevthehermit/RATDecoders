@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='malwareconfig',
-    version='0.1.0',
+    version='1.0.0',
     author='Kevin Breen',
     author_email='thehermit@malwareconfig.com',
     description="Malware Config Extraction",
@@ -22,7 +22,8 @@ setup(
         'pbkdf2',
         'javaobj-py3',
         'pycrypto',
-        'pprint'
+        'pprint',
+        'androguard'
     ],
     scripts=['malconf'],
     package_data={'': ['*.yar', 'README.md, LICENSE']}
