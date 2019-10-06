@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='malwareconfig',
-    version='1.0.2',
+    version='1.0.3',
     author='Kevin Breen',
     author_email='thehermit@malwareconfig.com',
     description="Malware Config Extraction",
@@ -22,7 +22,6 @@ setup(
         'pbkdf2',
         'javaobj-py3',
         'pycrypto',
-        'pprint',
         'androguard'
     ],
     scripts=['malconf'],

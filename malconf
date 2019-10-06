@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
 import sys
-from pprint import pprint
+import json
 from optparse import OptionParser
 
 from malwareconfig import fileparser
@@ -56,7 +56,8 @@ def process_file(file_path, output_file):
 
         else:
             print("  [-] Config Output\n")
-            pprint(conf)
+            json_config = json.dumps(conf, indent=4, sort_keys=True)
+            print(json_config)
     else:
         print("[!] No Decoder or File is Packed")
 
