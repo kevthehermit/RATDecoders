@@ -7,10 +7,9 @@ Incident Responders during an incident.
 As a library it can also be installed in to automated malware analysis pipelines. 
 
 
-![Coverage](https://codecov.io/gh/kevthehermit/RATDecoders/branch/library/graph/badge.svg "Coverage")
+![Coverage](https://codecov.io/gh/kevthehermit/RATDecoders/branch/master/graph/badge.svg "Coverage")
 
 [![Build Status](https://travis-ci.com/kevthehermit/RATDecoders.svg?branch=master)](https://travis-ci.com/kevthehermit/RATDecoders)
-
 
 
 ## Installation
@@ -23,6 +22,7 @@ There are some pre-reqs that are included in the pip setup and the requirements.
 - pbkdf2
 - javaobj-py3
 - pycrypto
+- androguard
 
 For all the decoders you will need yara and yara-python. For dealing with .NET malware you will need to install yara-python with dotnet support
 
@@ -38,11 +38,12 @@ pip3 install --upgrade malwareconfig
 
 #### Install from repo
 
+```
 git clone git@github.com:kevthehermit/RATDecoders.git
 cd RATDecoders
 pip3 install -r requirements.txt
 python3 setup.py install
-
+```
 
 ###Current Rats
 Here is a list of the currently supported RATS:
@@ -64,7 +65,7 @@ Here is a list of the currently supported RATS:
   - DarkComet
   - DarkRAT
   - HawkEye
-  - Hrat
+  - Hrat / hworm / WSH
   - Jbifrost
   - JRat
   - LuminosityLink
@@ -76,7 +77,7 @@ Here is a list of the currently supported RATS:
   - Remcos
   - Saefko
   - Sakula
-  - SpyNote
+  - SpyNote / Mobihook
 
 ###Upcoming RATS
 
@@ -122,6 +123,7 @@ Full credit where credit is due.
 
 Malware.lu for the initial xtreme Rat Writeup - https://code.google.com/p/malware-lu/wiki/en_xtreme_RAT
 
-Fireye for their Poison Ivy and Xtreme rat WriteUps (Even though they ignored my tweet and reply ) - http://www.fireeye.com/blog/technical/2014/02/xtremerat-nuisance-or-threat.html
+Fireye for their Poison Ivy and Xtreme rat WriteUps (Even though they ignored my tweets :-) ) - http://www.fireeye.com/blog/technical/2014/02/xtremerat-nuisance-or-threat.html
 
 Shawn Denbow and Jesse Herts for their paper here - http://www.matasano.com/research/PEST-CONTROL.pdf Saved me a lot of time 
+
