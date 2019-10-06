@@ -9,7 +9,7 @@ As a library it can also be installed in to automated malware analysis pipelines
 
 ![Coverage](https://codecov.io/gh/kevthehermit/RATDecoders/branch/master/graph/badge.svg "Coverage")
 
-[![Build Status](https://travis-ci.com/kevthehermit/RATDecoders.svg?branch=master)](https://travis-ci.com/kevthehermit/RATDecoders)
+[![Build Status](https://travis-ci.org/kevthehermit/RATDecoders.svg?branch=master)](https://travis-ci.org/kevthehermit/RATDecoders)
 
 
 ## Installation
@@ -94,7 +94,36 @@ You can also use the `-o` option to write results out to a file.
 
 ```malconf -l``` This will list all the supported rats
 
-```malconf /path/to/sample ``` This will automagically detect the family and 
+```malconf /path/to/sample ``` This will automagically detect the family and run the decoder
+
+```
+⇒  malconf tests/samples/alienspy 
+
+ __  __       _  ____             __ 
+|  \/  | __ _| |/ ___|___  _ __  / _|
+| |\/| |/ _` | | |   / _ \| '_ \| |_ 
+| |  | | (_| | | |__| (_) | | | |  _|
+|_|  |_|\__,_|_|\____\___/|_| |_|_| 
+
+Malware Configuration Parser by @kevthehermit
+
+[+] Loading File: tests/samples/alienspy
+  [-] Found: AlienSpy
+  [-] Running Decoder
+  [-] Config Output
+
+{'ConfigKey': 'fzGUoTaQH3SUW7E82IKQK2J2J2IISIS',
+ 'NAME': 'ok',
+ 'Version': 'B',
+ 'connetion_time': '0',
+ 'desktop': 'true',
+ 'dns': '213.208.129.211',
+ 'extensionname': 'qQJ',
+ 'folder': 'java',
+ 'instalar': 'true',
+
+
+```
 
 ### Library
 

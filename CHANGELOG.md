@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.2] - 2016-10-06
+### Changed
+- Removed print statement from saefko decoder
+- Travis badge to .org not .com
+- Correct extension to changelog
+
 ## [1.0.1] - 2019-10-06
 ### Added
 - This changelog

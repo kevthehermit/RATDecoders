@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='malwareconfig',
-    version='1.0.1',
+    version='1.0.2',
     author='Kevin Breen',
     author_email='thehermit@malwareconfig.com',
     description="Malware Config Extraction",
