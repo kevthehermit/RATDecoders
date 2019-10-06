@@ -26,7 +26,7 @@ There are some pre-reqs that are included in the pip setup and the requirements.
 
 For all the decoders you will need yara and yara-python. For dealing with .NET malware you will need to install yara-python with dotnet support
 
-###### yara-python with dotnet support
+##### yara-python with dotnet support
 
 git clone --recursive https://github.com/VirusTotal/yara-python
 python3 setup.py build --enable-magic --enable-dotnet
@@ -45,7 +45,7 @@ pip3 install -r requirements.txt
 python3 setup.py install
 ```
 
-###Current Rats
+### Current Rats
 Here is a list of the currently supported RATS:
 
   - LostDoor
@@ -79,14 +79,16 @@ Here is a list of the currently supported RATS:
   - Sakula
   - SpyNote / Mobihook
 
-###Upcoming RATS
+### Upcoming RATS
 
 - Still migrating old ones!
 
-###Usage
+### Usage
 
-The decoders now act like a framework with auto family detection. You can still find the original individual decoders in the archive folder. These will not be 
-kept as up to date as the decoders in the framework. 
+Using the supplied command line tool `malconf` you can pass in a single file or a directory with the `-r` flag and it will attempt to automagically detect the family and extract any config. 
+
+You can also use the `-o` option to write results out to a file.
+
 
 ```malconf```
 
