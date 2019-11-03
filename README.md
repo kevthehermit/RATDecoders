@@ -28,13 +28,17 @@ For all the decoders you will need yara and yara-python. For dealing with .NET m
 
 ##### yara-python with dotnet support
 
+```
 git clone --recursive https://github.com/VirusTotal/yara-python
 python3 setup.py build --enable-magic --enable-dotnet
 sudo python3 setup.py install
+```
 
 #### Install from pip
 
+```
 pip3 install --upgrade malwareconfig
+```
 
 #### Install from repo
 
