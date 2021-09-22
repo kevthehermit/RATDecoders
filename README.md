@@ -84,6 +84,22 @@ Here is a list of the currently supported RATS:
   - SpyNote / Mobihook
 
 ### Upcoming RATS
+  - Albertino Advanced RAT
+  - ClientMesh
+  - drakddoser
+  - Graeme
+  - jSpy
+  - Pandora
+  - PoisionIvy
+  - PredatorPain
+  - Punisher
+  - SpyGate
+  - SmallNet
+  - Unrecom
+  - Vantom
+  - Vertex
+  - VirusRat
+  - Xena
 
 - Still migrating old ones!
 
