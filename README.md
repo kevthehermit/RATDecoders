@@ -21,7 +21,7 @@ There are some pre-reqs that are included in the pip setup and the requirements.
 - pefile
 - pbkdf2
 - javaobj-py3
-- pycrypto
+- pycryptodome
 - androguard
 
 For all the decoders you will need yara and yara-python. For dealing with .NET malware you will need to install yara-python with dotnet support
