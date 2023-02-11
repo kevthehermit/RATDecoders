@@ -3,3 +3,4 @@ pbkdf2
 javaobj-py3
 pycrypto
 androguard
+ipython>=8.10.0 # not directly required, pinned by Snyk to avoid a vulnerability
